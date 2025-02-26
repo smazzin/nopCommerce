@@ -1,0 +1,11 @@
+{
+  "Group": "Misc",
+  "FriendlyName": "Contact Us",
+  "SystemName": "Misc.PcContactUs",
+  "Version": "4.8.0",
+  "SupportedVersions": [ "4.60", "4.70", "4.80" ],
+  "Author": "jh",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.Misc.PcContactUs.dll",
+  "Description": "This contact us plugin allows you to add a contact us page to your site."
+}

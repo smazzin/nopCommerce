@@ -1,0 +1,105 @@
+@using Nop.Plugin.Misc.PcContactUs.Models;
+@using Nop.Web.Extensions;
+@using Nop.Web.Framework;
+@using Nop.Web.Framework.Infrastructure
+@using Nop.Web.Framework.UI;
+@using Nop.Web.Framework.Security.Captcha;
+@model ContactUsModel
+@{
+    Layout = "_ColumnsOne";
+
+    //title
+    NopHtml.AddTitleParts(T("PageTitle.ContactUs").Text);
+    //page class
+    NopHtml.AppendPageCssClassParts("html-contact-page");
+}
+
+<div class="page contact-page container">
+    <div class="page-title margin-block-end-4">
+        <h1>@T("PageTitle.ContactUs")</h1>
+    </div>
+    <div class="page-body">
+		<div>
+			<div>
+				@await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.ContactUsTop })
+				@await Component.InvokeAsync("TopicBlock", new { systemName = "ContactUs" })
+			</div>
+			<div>
+				@if (Model.SuccessfullySent)
+				{
+				<div class="result alert alert-success margin-block-8">
+					@Model.Result
+				</div>
+				}
+				else
+				{
+				<form asp-route="PcContactUs" method="post" id="contactform">
+					<input type="hidden" id="captchaInput" name="captcha">
+					<div asp-validation-summary="ModelOnly" class="message-error"></div>
+					<div class="fieldset">
+						<div class="form-fields">
+							<div class="inputs form-floating margin-block-end-4">
+								<input asp-for="Name" placeholder="@T("ContactUs.FullName.Hint")" class="fullname form-control" />
+								<label asp-for="Name" asp-postfix="">
+									@T("ContactUs.FullName.Hint")
+									<nop-required />
+								</label>
+								<span asp-validation-for="Name"></span>
+							</div>
+							<div class="inputs form-floating margin-block-end-4">
+								<input asp-for="Email" placeholder="@T("ContactUs.Email.Hint")" class="email form-control" />
+								<label asp-for="Email" asp-postfix="">
+									@T("ContactUs.Email.Hint")
+									<nop-required />
+								</label>
+								<span asp-validation-for="Email"></span>
+							</div>
+							<div class="inputs form-floating margin-block-end-4">
+								<input asp-for="PhoneNumber" placeholder="@T("ContactUs.Phone.Hint")" class="phone form-control" />
+								<label asp-for="PhoneNumber" asp-postfix="">
+									@T("ContactUs.Phone.Hint")
+									<nop-required />
+								</label>
+								<span asp-validation-for="PhoneNumber"></span>
+							</div>
+							<div class="inputs form-floating margin-block-end-4">
+								<textarea rows="10" asp-for="Comments" placeholder="@T("ContactUs.Enquiry.Hint")" class="enquiry form-control"></textarea>
+								<label asp-for="Comments" asp-postfix="">
+									@T("ContactUs.Enquiry.Hint")
+									<nop-required />
+								</label>
+								<span asp-validation-for="Comments"></span>
+							</div>
+							@if (Model.DisplayCaptcha)
+							{
+							<nop-captcha />
+							}
+						</div>
+					</div>
+					<div class="buttons">
+							<button class="button-1 contact-us-button"
+									type="submit"
+									name="send-email"
+									data-type="accent-success">
+								@T("ContactUs.Button")
+							</button>
+					</div>
+				</form>
+				}
+				<script asp-asp-location="Head">
+					document.addEventListener('DOMContentLoaded', function () {
+						grecaptcha.ready(function () {
+							grecaptcha.execute('6Ld-s0obAAAAAJ1jUscEuHLSO6h9I6uYlE_rwlLE', { action: 'submit' }).then(function (token) {
+								var captchaInput = document.getElementById('captchaInput');
+								if (captchaInput) {
+									captchaInput.value = token;
+								}
+							});
+						});
+					});
+				</script>
+				@await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.ContactUsBottom })
+			</div>
+		</div>
+    </div>
+</div>

@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Widgets",
+  "FriendlyName": "Phone Number",
+  "SystemName": "Widgets.PhoneNumber",
+  "Version": "4.80",
+  "SupportedVersions": [ "4.60", "4.70", "4.80" ],
+  "Author": "JH",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.Widgets.PhoneNumber.dll",
+  "Description": "This plugin displays phone number in header"
+}
