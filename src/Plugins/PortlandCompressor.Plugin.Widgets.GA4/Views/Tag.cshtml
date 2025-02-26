@@ -1,0 +1,142 @@
+@model PortlandCompressor.Plugin.Widgets.GA4.Models.GA4Model
+
+@{
+  var debugModeText = Model.IsDebugMode ? ", { 'debug_mode':true }" : string.Empty;
+}
+
+
+<!-- Google Tag Manager -->
+<script>	
+	(function (w, d, s, l, i) {
+		w[l] = w[l] || []; w[l].push({
+			'gtm.start':
+				new Date().getTime(), event: 'gtm.js'
+		}); var f = d.getElementsByTagName(s)[0],
+			j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+				'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+	})(window, document, 'script', 'dataLayer', '@Model.GoogleTag');
+</script>
+<!-- End Google Tag Manager -->
+
+<script>
+
+	@if (Model.ViewItemModel != null)
+	{
+	<text>
+		dataLayer.push({ ecommerce: null });  // Clear the previous ecommerce object.
+		dataLayer.push({
+			event: "view_item",
+			ecommerce: {
+				currency: "USD",
+				value: @Model.ViewItemModel.Price,
+				items: [
+					{
+						item_id: "@Model.ViewItemModel.Sku",
+						item_name: "@Model.ViewItemModel.Name",
+						index: 0,
+						item_brand: "@Model.ViewItemModel.Brand",
+						item_category: "@Model.ViewItemModel.Category",
+						price: @Model.ViewItemModel.Price
+					}
+				]
+			}
+		});
+	</text>
+	}
+
+	@if (Model.BeginCheckoutModel != null)
+	{
+	<text>
+		dataLayer.push({ ecommerce: null });  // Clear the previous ecommerce object.
+		dataLayer.push({
+			event: "begin_checkout",
+			ecommerce: {
+				currency: "USD",
+				value: @Model.BeginCheckoutModel.Value,
+				items: [
+					@for (var i = 0; i < Model.BeginCheckoutModel.Items.Count(); i++)
+					{
+					var item = Model.BeginCheckoutModel.Items[i];
+					<text>
+						{
+						item_id: "@item.Sku",
+						item_name: "@item.Name",
+						index: @i,
+						item_brand: "@item.Brand",
+						item_category: "@item.Category",
+						price: @item.Price,
+						quantity: @item.Quantity
+						},
+					</text>
+					}
+				]
+			}
+		});
+	</text>
+	}
+
+	@if (Model.ViewCartModel != null)
+	{
+	<text>
+		dataLayer.push({ ecommerce: null });  // Clear the previous ecommerce object.
+		dataLayer.push({
+			event: "view_cart",
+			ecommerce: {
+				currency: "USD",
+				value: @Model.ViewCartModel.Value,
+				items: [
+					@for (var i = 0; i < Model.ViewCartModel.Items.Count(); i++)
+					{
+					var item = Model.ViewCartModel.Items[i];
+					<text>
+						{
+						item_id: "@item.Sku",
+						item_name: "@item.Name",
+						index: @i,
+						item_brand: "@item.Brand",
+						item_category: "@item.Category",
+						price: @item.Price,
+						quantity: @item.Quantity
+						},
+					</text>
+					}
+				]
+			}
+		});
+	</text>
+	}
+
+	@if (Model.PurchaseModel != null)
+	{
+        <text>
+		dataLayer.push({ ecommerce: null });  // Clear the previous ecommerce object.
+		dataLayer.push({
+			event: "purchase",
+			ecommerce: {
+				transaction_id: @Model.PurchaseModel.OrderId,
+				value: @Model.PurchaseModel.Value,
+				tax: @Model.PurchaseModel.Tax,
+				shipping: @Model.PurchaseModel.Shipping,
+				currency: "USD",
+				items: [
+					@for (var i = 0; i < Model.PurchaseModel.OrderItems.Count(); i++)
+					{
+					var item = Model.PurchaseModel.OrderItems[i];
+					<text>
+						{
+						item_id: "@item.Sku",
+						item_name: "@item.Name",
+						index: @i,
+						item_brand: "@item.Brand",
+						item_category: "@item.Category",
+						price: @item.Price,
+						quantity: @item.Quantity
+						},
+					</text>
+					}
+				]
+			}
+		});
+	</text>
+	}
+</script>

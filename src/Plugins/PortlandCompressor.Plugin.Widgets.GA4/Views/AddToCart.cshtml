@@ -1,0 +1,41 @@
+@model PortlandCompressor.Plugin.Widgets.GA4.Models.AddToCartModel
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+	button.addEventListener("click", function () {
+	var buttonId = "@Model.ButtonId";
+	var button = document.getElementById(buttonId);
+	if (button === null) {
+		console.error("Button with ID '" + buttonId + "' not found.");
+		return;
+	}
+		if (event.target.id === buttonId) { 
+		
+		// Ensure dataLayer exists
+		window.dataLayer = window.dataLayer || [];
+
+		// Clear the previous ecommerce object
+		dataLayer.push({ ecommerce: null });
+
+		// Push the new ecommerce object
+		dataLayer.push({
+			event: "add_to_cart",
+			ecommerce: {
+				currency: "USD",
+				// Make value be quantity * price
+				value: @Model.Item.Price * @Model.Item.Quantity,
+				items: [{
+					item_id: "@Model.Item.Sku", // Ensure strings are correctly quoted
+					item_name: "@Model.Item.Name",
+					index: 0,
+					item_brand: "@Model.Item.Brand",
+					item_category: "@Model.Item.Category",
+					price: @Model.Item.Price, // Make sure this is rendered as a number or string
+					quantity: @Model.Item.Quantity // Ensure this is rendered as a number
+				}]
+				}
+			});
+		}
+	});
+});
+</script>

@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Widget",
+  "FriendlyName": "GA4",
+  "SystemName": "Widgets.GA4",
+  "Version": "4.80",
+  "SupportedVersions": [ "4.50", "4.60", "4.70", "4.80" ],
+  "Author": "JH",
+  "DisplayOrder": 1,
+  "FileName": "PortlandCompressor.Plugin.Widgets.GA4.dll",
+  "Description": "Integrates GA4"
+}
