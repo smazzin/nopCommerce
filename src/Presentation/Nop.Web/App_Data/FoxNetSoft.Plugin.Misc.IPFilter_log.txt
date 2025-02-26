@@ -1,0 +1,28 @@
+2025.02.26 14:50:54:8453*******
+DownloadDatabases zipPath=C:\Users\jhaus\projects\nopCommerce\src\Presentation\Nop.Web\Plugins\FoxNetSoft.IPFilter\Database/GeoLite2-Country-CSV.zip
+DownloadDatabases (finished) zipPath=C:\Users\jhaus\projects\nopCommerce\src\Presentation\Nop.Web\Plugins\FoxNetSoft.IPFilter\Database/GeoLite2-Country-CSV.zip
+ - entry.FullName =GeoLite2-Country-CSV_20241206/GeoLite2-Country-Locations-ru.csv
+ - try to unzip fullname=GeoLite2-Country-Locations-ru.csv
+ - entry.FullName =GeoLite2-Country-CSV_20241206/COPYRIGHT.txt
+ - try to unzip fullname=COPYRIGHT.txt
+ - entry.FullName =GeoLite2-Country-CSV_20241206/GeoLite2-Country-Locations-de.csv
+ - try to unzip fullname=GeoLite2-Country-Locations-de.csv
+ - entry.FullName =GeoLite2-Country-CSV_20241206/GeoLite2-Country-Locations-pt-BR.csv
+ - try to unzip fullname=GeoLite2-Country-Locations-pt-BR.csv
+ - entry.FullName =GeoLite2-Country-CSV_20241206/GeoLite2-Country-Locations-ja.csv
+ - try to unzip fullname=GeoLite2-Country-Locations-ja.csv
+ - entry.FullName =GeoLite2-Country-CSV_20241206/GeoLite2-Country-Blocks-IPv4.csv
+ - try to unzip fullname=GeoLite2-Country-Blocks-IPv4.csv
+ - entry.FullName =GeoLite2-Country-CSV_20241206/GeoLite2-Country-Locations-zh-CN.csv
+ - try to unzip fullname=GeoLite2-Country-Locations-zh-CN.csv
+ - entry.FullName =GeoLite2-Country-CSV_20241206/GeoLite2-Country-Locations-fr.csv
+ - try to unzip fullname=GeoLite2-Country-Locations-fr.csv
+ - entry.FullName =GeoLite2-Country-CSV_20241206/GeoLite2-Country-Blocks-IPv6.csv
+ - try to unzip fullname=GeoLite2-Country-Blocks-IPv6.csv
+ - entry.FullName =GeoLite2-Country-CSV_20241206/LICENSE.txt
+ - try to unzip fullname=LICENSE.txt
+ - entry.FullName =GeoLite2-Country-CSV_20241206/GeoLite2-Country-Locations-es.csv
+ - try to unzip fullname=GeoLite2-Country-Locations-es.csv
+ - entry.FullName =GeoLite2-Country-CSV_20241206/GeoLite2-Country-Locations-en.csv
+ - try to unzip fullname=GeoLite2-Country-Locations-en.csv
+
