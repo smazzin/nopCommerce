@@ -1,0 +1,17 @@
+﻿@{
+    Layout = "_Root";
+}
+@if (IsSectionDefined("Breadcrumb"))
+{
+    @section Breadcrumb {
+        @RenderSection("Breadcrumb")
+    }
+}
+
+@* @await Component.InvokeAsync("Navigation", new { viewName = "Bootstrap4Breadcrumbs", startingNodeKey = "" }) *@
+
+
+    @await Component.InvokeAsync("Widget", new { widgetZone = "main_column_before" })
+    @RenderBody()
+    @await Component.InvokeAsync("Widget", new { widgetZone = "main_column_after" })
+

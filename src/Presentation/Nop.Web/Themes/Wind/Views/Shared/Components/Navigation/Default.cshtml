@@ -1,0 +1,26 @@
+﻿@model (Dictionary<string, List<(string Url, string Name)>> Structure, string CurrentUrl)
+<div class="d-grid hidden-desktop mobile-filter-trigger">
+    <button class="button-1" data-type="outline-primary" type="button">
+        <span class="filter-title">Navigation</span>
+    </button>
+</div>
+<div class="filters-overlay"></div>
+<div class="sidebar-filters">
+    <nav class="sidebar-navigation">
+        <ul class="list-unstyled flow">
+            @foreach (var parent in Model.Structure)
+            {
+                @* <li class="@(parent.Value.Any(x => x.Url == Model.CurrentUrl) ? "active" : "")"> *@
+                <li class="sidebar-spec-group">
+                    <h5 class="fw-bold">@parent.Value[0].Name</h5>
+                    <ul class="list-unstyled">
+                        @foreach (var child in parent.Value)
+                        {
+                            <li class="margin-inline-start-2"><a class="@(child.Url == Model.CurrentUrl ? "active text-neutral-500 text-small fw-bold" : "text-neutral-400 text-small")" href="@child.Url">@child.Name</a></li>
+                        }
+                    </ul>
+                </li>
+            }
+        </ul>
+    </nav>
+</div>

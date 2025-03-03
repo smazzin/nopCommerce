@@ -1,0 +1,79 @@
+@model ProductDetailsModel.ProductBreadcrumbModel
+
+@using Nop.Core.Domain.Catalog
+@using Nop.Core.Domain.Common
+
+@inject CommonSettings commonSettings
+
+@* Added *@
+@inject Nop.Core.IWebHelper webHelper
+
+@{
+    var breadcrumbDelimiter = commonSettings.BreadcrumbDelimiter;
+
+    var productUrl = Url.RouteUrl<Product>(new { SeName = Model.ProductSeName }, webHelper.GetCurrentRequestProtocol()).ToLowerInvariant();
+
+  
+    <script type="application/ld+json" asp-location="Head">
+    {
+    "@@context": "https://schema.org",
+    "@@type": "BreadcrumbList",
+    "itemListElement": [
+        @{ int position = 1; }
+        @foreach (var cat in Model.CategoryBreadcrumb)
+        {
+            <text>
+                {
+                    "@@type": "ListItem",
+                    "position": @position,
+                    "name": "@cat.Name",
+                    "item": "@Url.RouteUrl("Category", new { SeName = cat.SeName }, webHelper.GetCurrentRequestProtocol()).ToLowerInvariant()"
+                },
+            </text>
+            position++;
+            NopHtml.AddHeadCustomParts("<meta name=\"addsearch-custom-field\" content=\"breadcrumbs=" + cat.Name + "\" />");
+        }
+        {
+            "@@type": "ListItem",
+            "position": @position,
+            "name": "@Model.ProductName",
+            "item": "@productUrl"            
+        }]
+    }
+    </script>
+    
+}
+@if (Model.Enabled)
+{
+    <div class="breadcrumb">
+            <ol>
+                @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.ProductBreadcrumbBefore, additionalData = Model })
+                <li>
+                    <span>
+                        <a href="@Url.RouteUrl("Homepage")">
+                            <span>@T("Products.Breadcrumb.Top")</span>
+                        </a>
+                    </span>
+                    <span class="delimiter">@breadcrumbDelimiter</span>
+                </li>
+                @{ int position = 1; }
+                @foreach (var category in Model.CategoryBreadcrumb)
+                {
+                    <li>
+                        <a href="@(Url.RouteUrl<Category>(new { SeName = category.SeName }))">
+                            <span>@category.Name</span>
+                        </a>
+                        <span class="delimiter">@breadcrumbDelimiter</span>
+                    </li>
+                    position++;
+                }
+                
+                <li>
+                    <strong class="current-item">@Model.ProductName</strong>
+                    <span id="@(Url.RouteUrl<Product>(new { SeName = Model.ProductSeName }))">
+                    </span>
+                    @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.ProductBreadcrumbAfter, additionalData = Model })
+                </li>
+            </ol>
+    </div>
+}

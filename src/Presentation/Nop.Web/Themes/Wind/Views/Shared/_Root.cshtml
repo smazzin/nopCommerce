@@ -1,0 +1,125 @@
+﻿@using Nop.Core.Domain.Catalog
+@{
+    Layout = "_Root.Head";
+
+    //current category ID
+    var currentCategoryId = 0;
+    if (Url.ActionContext.RouteData.Values["controller"].ToString().Equals("catalog", StringComparison.InvariantCultureIgnoreCase) &&
+        Url.ActionContext.RouteData.Values["action"].ToString().Equals("category", StringComparison.InvariantCultureIgnoreCase))
+    {
+        currentCategoryId = Convert.ToInt32(Url.ActionContext.RouteData.Values["categoryId"].ToString());
+    }
+
+
+    //current manufacturer ID
+    var currentManufacturerId = 0;
+    if (Url.ActionContext.RouteData.Values["controller"].ToString().Equals("catalog", StringComparison.InvariantCultureIgnoreCase) &&
+        Url.ActionContext.RouteData.Values["action"].ToString().Equals("manufacturer", StringComparison.InvariantCultureIgnoreCase))
+    {
+        currentManufacturerId = Convert.ToInt32(Url.ActionContext.RouteData.Values["manufacturerId"].ToString());
+    }
+
+
+    //current product ID
+    var currentProductId = 0;
+    if (Url.ActionContext.RouteData.Values["controller"].ToString().Equals("product", StringComparison.InvariantCultureIgnoreCase) &&
+        Url.ActionContext.RouteData.Values["action"].ToString().Equals("productdetails", StringComparison.InvariantCultureIgnoreCase))
+    {
+        currentProductId = Convert.ToInt32(Url.ActionContext.RouteData.Values["productId"].ToString());
+    }
+    // Get all manufacturers and logos
+    var manufacturerService = Nop.Core.Infrastructure.EngineContext.Current.Resolve<Nop.Services.Catalog.IManufacturerService>();
+    var manufacturers = await manufacturerService.GetAllManufacturersAsync();
+    // Need to get SeName for Manufacturer
+    var UrlRecord = Nop.Core.Infrastructure.EngineContext.Current.Resolve<Nop.Services.Seo.IUrlRecordService>();
+}
+@await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.BodyStartHtmlTagAfter })
+@{ await Html.RenderPartialAsync("_Notifications"); }
+@{ await Html.RenderPartialAsync("_JavaScriptDisabledWarning"); }
+<div class="master-wrapper-page">
+    @await Component.InvokeAsync(typeof(AdminHeaderLinksViewComponent))
+    <div class="header-content-top bg-primary-600 padding-block-4">
+        <div class="container" data-type="wide">
+            <div class="content text-neutral-000">
+                <div class="info-links">
+                    <ul class="info-links-menu">
+                        <li id="brands" class="brands-dropdown margin-inline-end-4">
+                            <a class="text-neutral-000" href="#">Brands</a>
+                            <div class="brands-mega-menu">
+                                <ul class="brands-column-4 padding-4">
+                                    @foreach (var manufacturer in manufacturers)
+                                    {
+                                        var pictureService = Nop.Core.Infrastructure.EngineContext.Current.Resolve<Nop.Services.Media.IPictureService>();
+                                        var pictureUrl = await pictureService.GetPictureUrlAsync(manufacturer.PictureId, 50);
+										var SeName = await UrlRecord.GetSeNameAsync(manufacturer);
+                                        <li>
+											<a class="text-neutral-800" href="@Url.RouteUrl("Manufacturer", new { SeName = SeName })">
+                                                <img class="img-fluid" alt="@manufacturer.Name" src="@pictureUrl" title="@manufacturer.Name" loading="lazy"/>
+                                                <span class="text-small">@manufacturer.Name</span>
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="dropdown margin-inline-end-4">
+                            <a class="text-neutral-000" href="#">Info &amp; Reference</a>
+                            <ul>
+                                <li><a class="text-neutral-800" href="@Url.Action("Index", "Airless")">Airless</a></li>
+                                <li><a class="text-neutral-800" href="@Url.Action("Index", "Compressor")">Air Compressors</a></li>
+                                <li><a class="text-neutral-800" href="@Url.Action("Index", "HVLP")">HVLP</a></li>
+                                <li><a class="text-neutral-800" href="@Url.Action("Index", "Stripers")">Line Stripers</a></li>
+                                <li><a class="text-neutral-800" href="@Url.Action("Index", "TextureSprayers")">Texture Sprayers</a></li>
+                                <li><a class="text-neutral-800" href="@Url.Action("Index", "washer")">Pressure Washers</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown margin-inline-end-4">
+                            <a class="text-neutral-000" href="#">More</a>
+                            <ul>
+                                <li><a class="text-neutral-800" href="@Url.Action("Shipping", "HomePC")">Shipping Info</a></li>
+                                <li><a class="text-neutral-800" href="@Url.Action("CustomerService", "HomePC")">Customer Service</a></li>
+                                <li><a class="text-neutral-800" href="@Url.Action("About", "HomePC")">About Us</a></li>
+                            </ul>
+                        </li>
+                        <li class="margin-inline-end-4">
+                            <a class="text-neutral-000" href="~/contactus">Contact Us</a>
+                        </li>
+                        <li class="margin-inline-end-4">
+                            <i class="fas fa-phone-square-alt margin-inline-2 text-neutral-000"></i>
+                            @await Component.InvokeAsync("WidgetsPhoneNumber", new { currentCategoryId = currentCategoryId, currentProductId = currentProductId })
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            @{ await Html.RenderPartialAsync("_Header"); }
+            <div class="header-top-nav">
+                @await Component.InvokeAsync(typeof(TopMenuViewComponent))
+            </div>
+        </div>
+    </div>
+    <script asp-location="Footer">
+        var localized_data = {
+            AjaxCartFailure: "@T("AjaxCart.Failure")"
+        };
+        AjaxCart.init(false, '.header-links .cart-qty', '.header-links .wishlist-qty', '#flyout-cart', localized_data);
+    </script>
+    <div class="container" data-type="wide">
+        @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.ContentBefore })
+
+        @if (IsSectionDefined("Breadcrumb"))
+        {
+            @RenderSection("Breadcrumb") 
+        }
+        <div class="master-column-wrapper">
+            @RenderBody()
+        </div>
+        @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.ContentAfter })
+    </div>
+    <footer class="bg-neutral-100">
+        <div class="container" data-type="wide">
+            @await Component.InvokeAsync(typeof(FooterViewComponent))
+        </div>
+    </footer>
+</div>
+@await Component.InvokeAsync(typeof(EuCookieLawViewComponent))
+@await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.BodyEndHtmlTagBefore })

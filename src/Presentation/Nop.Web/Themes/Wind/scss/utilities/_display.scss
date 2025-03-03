@@ -1,0 +1,21 @@
+@use "../abstracts/" as *;
+
+$aliases: (
+  flex,
+  inline-flex,
+  inline,
+  inline-block,
+  grid,
+  inline-grid,
+  block,
+  display-none,
+  contents
+);
+
+// each loop thorugh the aliases to make utility classes
+// for example: .d-flex { display: flex; }
+@each $alias in $aliases {
+	.d-#{$alias} {
+		display: $alias;
+	}
+}

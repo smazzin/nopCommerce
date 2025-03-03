@@ -1,0 +1,36 @@
+@use "../abstracts/" as *;
+
+.radio-button-group {
+	display: flex;
+	flex-direction: column;
+}
+
+.radio-button-group .item {
+  width: 100%;
+}
+.radio-button-group .radio-button {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+.radio-button-group .radio-button + label {
+		padding: .725em .625em;
+    cursor: pointer;
+    border: 1px solid var(--clr-accent-400);
+    margin-right: -2px;
+    color: var(--clr-neutral-500);
+    background-color: var(--clr-neutral-000);
+    display: block;
+    text-align: center;
+}
+.radio-button-group .item:first-of-type .radio-button + label{
+  border-radius: .5vw;
+}
+.radio-button-group .item:last-of-type .radio-button + label {
+  border-radius: .5vw;
+}
+.radio-button-group .radio-button:checked + label {
+    background-color: var(--clr-accent-500);
+    color: var(--clr-neutral-000);
+}

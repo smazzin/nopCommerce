@@ -1,0 +1,19 @@
+@use "../abstracts/" as *;
+
+// one grid column
+@include mq(medium) {
+	.one-columns {
+		display: grid;
+		grid-gap: var(--grid-gap, 1rem);
+		grid-template-columns: 1fr;
+	}
+}
+
+// one grid column with max width of 65em
+@include mq(medium) {
+	.one-columns[data-type="narrow"] {
+		display: grid;
+		grid-gap: var(--grid-gap, 1rem);
+		grid-template-columns: minmax(0, 45em);
+	}
+}

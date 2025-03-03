@@ -1,0 +1,33 @@
+@use "../abstracts/" as *;
+
+// two grid columns
+// @include mq(medium) {
+//   .two-columns {
+//     display: grid;
+//     grid-gap: var(--grid-gap, $grid-gap);
+//     grid-template-columns: 25% 1fr;
+//   }
+// }
+
+.two-columns {
+	display: grid;
+  grid-template-columns: repeat(12, [col-start] 1fr);
+	grid-gap: var(--grid-gap, 1rem);
+
+  // mobile
+  // We want for the narrowest screens is for the items to remain in source order, and all span right across the grid
+  > * {
+    grid-column: col-start / span 12;
+  }
+
+	// desktop two column layout
+	@include mq(medium) {
+    .side-2 {
+      grid-column: col-start / span 3;
+    }
+    
+    .center-2 {
+      grid-column: col-start 4 / span 9;
+    }
+	}
+}

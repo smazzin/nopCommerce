@@ -1,0 +1,48 @@
+@use "../abstracts/" as *;
+
+.nav-tabs {
+  border-bottom: 1px solid var(--clr-neutral-100);
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+  align-items: center;
+
+  .nav-item {
+    margin-right: 1rem; // Adds spacing between tab items
+  }
+
+  .nav-link {
+    display: block;
+    padding: .5rem 1rem;
+    color: var(--clr-neutral-900);
+    background-color: transparent;
+    border-radius: 0; // Optional: rounded corners
+    border: 0;
+
+    &.active {
+      font-weight: var(--fw-700);
+      color: var(--clr-accent-400);
+      background-color: var(--clr-neutral-50); // Optional: changes background on active
+      border-bottom: 3px solid var(--clr-accent-400); // Make border thicker for visibility
+    }
+
+    &:hover {
+      color: var(--clr-accent-500); // Slightly change color on hover for feedback
+      border-color: var(--clr-neutral-200);
+      background-color: var(--clr-neutral-100); // Optional: changes background on hover
+    }
+  }
+}
+
+.tab-content {
+  .tab-pane {
+    display: none; /* Make all tab panes invisible by default */
+  }
+
+  .tab-pane.active.show {
+    display: block; /* Only display the pane that is active and should be shown */
+  }
+}

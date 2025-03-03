@@ -1,0 +1,100 @@
+@model ProductDetailsModel
+
+@using Nop.Core 
+@using Nop.Core.Domain.Catalog
+
+@* Added *@
+@using System.Text.RegularExpressions
+@using Nop.Core.Infrastructure
+
+@* Added *@
+@inject Nop.Services.Html.IHtmlFormatter htmlFormatter
+
+@* From Default *@
+@inject IWebHelper webHelper
+
+@{ 
+    var isAssociatedProduct = ViewData.ContainsKey("isAccessoryOrSparePartFor");
+    var productUrl = isAssociatedProduct && ViewData.ContainsKey("parentURL")
+        ? ViewData["parentURL"]
+        : Url.RouteUrl<Product>(new { SeName = Model.SeName }, webHelper.GetCurrentRequestProtocol()).ToLowerInvariant();
+    var productPrice = Model.AssociatedProducts.Any()
+        ? Model.AssociatedProducts.Min(associatedProduct => associatedProduct.ProductPrice.PriceValue)
+        : Model.ProductPrice.PriceValue;
+
+    // remove '$' and ',' from Price
+    var nonDiscountPrice = Model.ProductPrice.Price.Trim(new char [] { '$' }).Replace(",","");
+
+}
+
+@{
+
+    //var FullDescription = HttpUtility.HtmlEncode(Model.FullDescription);
+    //.Replace("\"", "")
+    //.Replace(" ", " ") // Shrink multiple spaces into one space.
+    //.TrimStart()
+    //.TrimEnd();
+    //var fd = Regex.Replace(FullDescription, " {2,}", " ");
+
+    string pattern = "\\s+";   
+
+    string replacement = " "; // replacement pattern
+
+    Regex rx = new Regex(pattern);
+
+    string fd = Html.Encode(htmlFormatter.StripTags(Model.FullDescription));
+
+    string result = rx.Replace(fd,replacement);  // call to replace space
+
+}
+
+@{
+    <script type="application/ld+json" asp-location="Head">
+        {
+            "@@context": "https://schema.org/",
+            "@@type": "Product",
+            "name": "@Model.Name",
+            "url": "@productUrl",
+            "image": "@Model.DefaultPictureModel.ImageUrl",
+            "description": "@result",
+            "sku": "@Model.Sku",
+            "itemCondition": "https://schema.org/NewCondition",
+            "mpn": "@Model.ManufacturerPartNumber",
+            @if (!string.IsNullOrWhiteSpace(Model.Gtin)) {
+            <text>"gtin12": "@Model.Gtin", </text>
+            }
+            @foreach (var manufacturer in Model.ProductManufacturers)
+            {
+                <text>"brand": {
+                        "@@type": "Brand",
+                        "name": "@manufacturer.Name"
+                    },</text>
+                <text>"manufacturer": {
+                        "@@type": "Organization",
+                        "name": "@manufacturer.Name"
+                    },</text>
+            }
+            "offers": [{
+                "@@type": "Offer",
+                "url": "@productUrl",
+                "priceCurrency": "USD",
+                @* "price": "@Model.ProductPrice.PriceValue.ToString("0.00")", *@
+                "price": "@nonDiscountPrice",
+                "priceSpecification": {
+                    @* "price": "@Model.ProductPrice.PriceValue.ToString("0.00")", *@
+                    "price": "@nonDiscountPrice",
+                    "priceCurrency": "USD",
+                    "valueAddedTaxIncluded": false
+                },
+                "itemCondition": "https://schema.org/NewCondition",
+                "priceValidUntil": "@DateTime.Now.AddYears(+1).ToString("yyyy-MM-dd");",
+                @if (Model.DisplayDiscontinuedMessage) {
+                    <text>"availability": "https://schema.org/Discontinued"</text>
+                }
+                else {
+                    <text>"availability": "https://schema.org/InStock"</text>
+                }
+            }]
+            }
+    </script>
+}

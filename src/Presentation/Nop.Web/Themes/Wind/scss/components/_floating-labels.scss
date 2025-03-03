@@ -1,0 +1,335 @@
+//
+// General form controls (plus a few specific high-level interventions)
+//
+
+.form-control {
+  display: block;
+  width: 100%;
+  padding: .375rem .75rem;
+  font-size: var(--fs-300);
+  color: var(--clr-neutral-500);
+  background-color: var(--clr-neutral-000);
+  background-clip: padding-box;
+  border: 1px solid var(--clr-neutral-200);
+  appearance: none; // Fix appearance for date inputs in Safari
+
+  // Note: This has no effect on <select>s in some browsers, due to the limited stylability of `<select>`s in CSS.
+  border-radius: 7px;
+
+  &[type="file"] {
+    overflow: hidden; // prevent pseudo element button overlap
+
+    &:not(:disabled):not([readonly]) {
+      cursor: pointer;
+    }
+  }
+
+  // Customize the `:focus` state to imitate native WebKit styles.
+  &:focus {
+    background-color: var(--clr-neutral-000);
+    border-color: var(--clr-accent-300);
+    outline: 0;
+    box-shadow: 0 0 0 .25rem rgba(13, 110, 253, .25)
+  }
+
+  // Add some height to date inputs on iOS
+  // https://github.com/twbs/bootstrap/issues/23307
+  // TODO: we can remove this workaround once https://bugs.webkit.org/show_bug.cgi?id=198959 is resolved
+  &::-webkit-date-and-time-value {
+    // Multiply line-height by 1em if it has no unit
+    height: 1.5em
+  }
+
+  // Prevent excessive date input height in Webkit
+  // https://github.com/twbs/bootstrap/issues/34433
+  &::-webkit-datetime-edit {
+    display: block;
+    padding: 0;
+  }
+
+  // Placeholder
+  &::placeholder {
+    color: var(--clr-neutral-400);
+    // Override Firefox's unusual default opacity; see https://github.com/twbs/bootstrap/pull/11526.
+    opacity: 1;
+  }
+
+  // Disabled inputs
+  //
+  // HTML5 says that controls under a fieldset > legend:first-child won't be
+  // disabled if the fieldset is disabled. Due to implementation difficulty, we
+  // don't honor that edge case; we style them as disabled anyway.
+  &:disabled {
+    background-color: var(--clr-neutral-100);
+    // iOS fix for unreadable disabled content; see https://github.com/twbs/bootstrap/issues/11655.
+    opacity: 1;
+  }
+
+  &:hover:not(:disabled):not([readonly])::file-selector-button {
+    background-color: var(--clr-neutral-100);
+  }
+}
+
+// Make sure textareas don't shrink too much when resized
+// https://github.com/twbs/bootstrap/pull/29124
+// stylelint-disable selector-no-qualifying-type
+textarea {
+  &.form-control {
+    min-height: calc(1.5em + .75rem + 2px)
+  }
+}
+
+// floating labels
+.form-floating {
+	position: relative
+}
+
+.form-floating>.form-control,
+.form-floating>.form-control-plaintext,
+.form-floating>.form-select {
+	// height: calc(3.5rem + 2px);
+	line-height: 1.25
+}
+
+.form-floating>label {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	padding: 1rem .75rem;
+	overflow: hidden;
+	text-align: start;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	pointer-events: none;
+	border: 1px solid transparent;
+	transform-origin: 0 0;
+	transition: opacity .1s ease-in-out, transform .1s ease-in-out
+}
+
+@media (prefers-reduced-motion:reduce) {
+	.form-floating>label {
+		transition: none
+	}
+}
+
+.form-floating>.form-control,
+.form-floating>.form-control-plaintext {
+	padding: 1rem .75rem
+}
+
+.form-floating>.form-control-plaintext::-moz-placeholder,
+.form-floating>.form-control::-moz-placeholder {
+	color: transparent
+}
+
+.form-floating>.form-control-plaintext::placeholder,
+.form-floating>.form-control::placeholder {
+	color: transparent
+}
+
+.form-floating>.form-control-plaintext:not(:-moz-placeholder-shown),
+.form-floating>.form-control:not(:-moz-placeholder-shown) {
+	padding-top: 1.625rem;
+	padding-bottom: .625rem
+}
+
+.form-floating>.form-control-plaintext:focus,
+.form-floating>.form-control-plaintext:not(:placeholder-shown),
+.form-floating>.form-control:focus,
+.form-floating>.form-control:not(:placeholder-shown) {
+	padding-top: 1.625rem;
+	padding-bottom: .625rem
+}
+
+.form-floating>.form-control-plaintext:-webkit-autofill,
+.form-floating>.form-control:-webkit-autofill {
+	padding-top: 1.625rem;
+	padding-bottom: .625rem
+}
+
+.form-floating>.form-select {
+	padding-top: 1.625rem;
+	padding-bottom: .625rem
+}
+
+.form-floating>.form-control:not(:-moz-placeholder-shown)~label {
+	opacity: .9;
+	transform: scale(.85) translateY(-.5rem) translateX(.15rem)
+}
+
+.form-floating>.form-control-plaintext~label,
+.form-floating>.form-control:focus~label,
+.form-floating>.form-control:not(:placeholder-shown)~label,
+.form-floating>.form-select~label {
+	opacity: .9;
+	transform: scale(.85) translateY(-.5rem) translateX(.15rem)
+}
+
+.form-floating>.form-control:-webkit-autofill~label {
+	opacity: .9;
+	transform: scale(.85) translateY(-.5rem) translateX(.15rem)
+}
+
+.form-floating>.form-control-plaintext~label {
+	border-width: 1px 0
+}
+
+.input-group {
+	position: relative;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: stretch;
+	width: 100%
+}
+
+.input-group>.form-control,
+.input-group>.form-floating,
+.input-group>.form-select {
+	position: relative;
+	flex: 1 1 auto;
+	width: 1%;
+	min-width: 0
+}
+
+.input-group>.form-control:focus,
+.input-group>.form-floating:focus-within,
+.input-group>.form-select:focus {
+	z-index: 5
+}
+
+.input-group .btn {
+	position: relative;
+	z-index: 2
+}
+
+.input-group .btn:focus {
+	z-index: 5
+}
+
+.input-group-text {
+	display: flex;
+	align-items: center;
+	padding: .375rem .75rem;
+	font-size: 1rem;
+	font-weight: 400;
+	line-height: 1.5;
+	color: var(--clr-neutral-500);
+	text-align: center;
+	white-space: nowrap;
+	background-color: var(--clr-neutral-100);
+	border: 1px solid var(--clr-neutral-200);
+	border-radius: .375rem
+}
+
+.input-group-lg>.btn,
+.input-group-lg>.form-control,
+.input-group-lg>.form-select,
+.input-group-lg>.input-group-text {
+	padding: .5rem 1rem;
+	font-size: 1.25rem;
+	border-radius: .5rem
+}
+
+.input-group-sm>.btn,
+.input-group-sm>.form-control,
+.input-group-sm>.form-select,
+.input-group-sm>.input-group-text {
+	padding: .25rem .5rem;
+	font-size: .875rem;
+	border-radius: .25rem
+}
+
+.input-group-lg>.form-select,
+.input-group-sm>.form-select {
+	padding-right: 3rem
+}
+
+.input-group:not(.has-validation)>.dropdown-toggle:nth-last-child(n+3),
+.input-group:not(.has-validation)>.form-floating:not(:last-child)>.form-control,
+.input-group:not(.has-validation)>.form-floating:not(:last-child)>.form-select,
+.input-group:not(.has-validation)>:not(:last-child):not(.dropdown-toggle):not(.dropdown-menu):not(.form-floating) {
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0
+}
+
+.input-group.has-validation>.dropdown-toggle:nth-last-child(n+4),
+.input-group.has-validation>.form-floating:nth-last-child(n+3)>.form-control,
+.input-group.has-validation>.form-floating:nth-last-child(n+3)>.form-select,
+.input-group.has-validation>:nth-last-child(n+3):not(.dropdown-toggle):not(.dropdown-menu):not(.form-floating) {
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0
+}
+
+.input-group>:not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
+	margin-left: -1px;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0
+}
+
+.input-group>.form-floating:not(:first-child)>.form-control,
+.input-group>.form-floating:not(:first-child)>.form-select {
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0
+}
+
+// validation errors
+.input-validation-error {
+  border-color: var(--clr-danger-500);
+  box-shadow: 0 0 0 .25rem rgba(220, 53, 69, .25)
+}
+
+.field-validation-error {
+  color: var(--clr-danger-500);
+}
+
+// form selects 
+.form-select {
+	display: block;
+	width: 100%;
+	padding: .375rem 2.25rem .375rem .75rem;
+	-moz-padding-start: calc(0.75rem - 3px);
+	font-size: 1rem;
+	font-weight: 400;
+	line-height: 1.5;
+	color: var(--clr-neutral-500);
+	background-color: var(--clr-neutral-000);
+	background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+	background-repeat: no-repeat;
+	background-position: right .75rem center;
+	background-size: 16px 12px;
+	border: 1px solid var(--clr-neutral-200);
+	border-radius: .375rem;
+	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+}
+
+@media (prefers-reduced-motion:reduce) {
+	.form-select {
+		transition: none;
+	}
+}
+
+.form-select:focus {
+	border-color: var(--clr-accent-300);
+	outline: 0;
+	box-shadow: 0 0 0 .25rem rgba(13, 110, 253, .25);
+}
+
+.form-select[multiple],
+.form-select[size]:not([size="1"]) {
+	padding-right: .75rem;
+	background-image: none;
+}
+
+.form-select:disabled {
+	background-color: var(--clr-neutral-100);
+}
+
+.form-select:-moz-focusring {
+	color: transparent;
+	text-shadow: 0 0 0 var(--clr-neutral-500);
+}

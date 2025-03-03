@@ -1,0 +1,116 @@
+@use "../abstracts/" as *;
+
+.table-responsive {
+	overflow-x: auto;
+}
+
+// style product spec tables
+.product-specs-box .data-table, 
+.table, 
+.data-table, 
+.cart-total, 
+.cart {
+	width: 100%;
+	max-width: 100%;
+	margin-bottom: 1rem;
+	color: var(--clr-neutral-500);
+	background-color: var(--clr-neutral-000);
+	border-collapse: collapse;
+	border-spacing: 0;
+	border: 1px solid var(--clr-neutral-100);
+	border-radius: 1px;
+	overflow: hidden;
+	thead {
+		tr {
+			th {
+				padding: 0.75rem 1rem;
+				vertical-align: bottom;
+				border-bottom: 2px solid var(--clr-neutral-100);
+				text-align: left;
+				color: var(--clr-neutral-500);
+				background-color: var(--clr-neutral-000);
+				border-color: var(--clr-neutral-100);
+			}
+		}
+	}
+	tbody {
+		tr {
+			td {
+				padding: 0.75rem 1rem;
+				vertical-align: top;
+				border-top: 1px solid var(--clr-neutral-100);
+				color: var(--clr-neutral-500);
+				background-color: var(--clr-neutral-000);
+				border-color: var(--clr-neutral-100);
+			}
+			th {
+				&:first-child {
+					padding-left: 0;
+				}
+				padding: 0.75rem 1rem;
+				vertical-align: top;
+				border-top: 1px solid var(--clr-neutral-100);
+				text-align: left;
+				color: var(--clr-neutral-500);
+				background-color: transparent;
+				border-color: var(--clr-neutral-100);
+			}
+		}
+	}
+	tfoot {
+		tr {
+			td {
+				padding: 0.75rem 1rem;
+				vertical-align: top;
+				border-top: 1px solid var(--clr-neutral-100);
+				color: var(--clr-neutral-500);
+				background-color: var(--clr-neutral-000);
+				border-color: var(--clr-neutral-100);
+			}
+		}
+	}
+}
+
+// table dark
+.table-dark {
+	thead {
+		tr {
+			th {
+				color: var(--clr-neutral-000);
+				background-color: var(--clr-neutral-500);
+				border-color: var(--clr-neutral-500);
+			}
+		}
+	}
+	tbody {
+		tr {
+			th {
+				color: var(--clr-neutral-000);
+				background-color: var(--clr-neutral-500);
+				border-color: var(--clr-neutral-500);
+			}
+		}
+	}
+}
+
+// table light
+.table-light {
+	thead {
+		tr {
+			th {
+				color: var(--clr-neutral-500);
+				background-color: var(--clr-neutral-100);
+				border-color: var(--clr-neutral-100);
+			}
+		}
+	}
+	tbody {
+		tr {
+			th {
+				color: var(--clr-neutral-500);
+				background-color: var(--clr-neutral-100);
+				border-color: var(--clr-neutral-100);
+			}
+		}
+	}
+}

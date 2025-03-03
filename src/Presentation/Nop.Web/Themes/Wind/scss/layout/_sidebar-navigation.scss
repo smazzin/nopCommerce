@@ -1,0 +1,54 @@
+@use "../abstracts/" as *;
+
+@media(max-width: 991px){
+	.sidebar-filters {
+		position: fixed;
+		width: 320px;
+		background-color: var(--clr-neutral-000);
+		right:0;
+		top:0;
+		height: 100%;
+		overflow: hidden;
+		transform: translate(100%);
+		transition: all 0.5s ease;
+		z-index: 1099;
+	}
+
+	.sidebar-filters{
+		height: 100%;
+		overflow-x: hidden;
+		overflow-y: auto;
+	}
+
+	.sidebar-filters.active{
+		transform: translate(0%);	
+		padding: 1rem;
+	}
+
+	.sidebar-overlay{
+		position: fixed;
+		background-color: rgba(0,0,0,0.5);
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		z-index: 1098;
+		visibility: hidden;
+		opacity: 0;
+		transition: all 0.5s ease;
+	}
+	.sidebar-overlay.active{
+		visibility: visible;
+		opacity: 1;	
+	}
+}
+
+.sidebar-spec-group {
+	border-top: 1px solid var(--clr-neutral-100);
+	padding-top: .25em;
+}
+
+.sidebar-spec-group:first-child {
+	border-top: none;
+	padding-top: 0;
+}

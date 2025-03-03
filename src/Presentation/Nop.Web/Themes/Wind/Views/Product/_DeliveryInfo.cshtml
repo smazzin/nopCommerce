@@ -1,0 +1,58 @@
+﻿@model ProductDetailsModel
+
+@* Using for free shipping *@
+@using Nop.Core.Infrastructure
+@using Nop.Services.Catalog
+@{
+    var productCategories = await EngineContext.Current.Resolve<ICategoryService>().GetProductCategoriesByProductIdAsync(Model.Id, true);
+    var free48 = productCategories.Any(c => c.CategoryId.Equals(141)); //CategoryID
+    var free50 = productCategories.Any(c => c.CategoryId.Equals(142)); //CategoryID
+}
+
+@if (free48)
+{
+    <div class="d-flex align-items-center free-shipping">
+        <strong class="margin-inline-end-2">
+            @T("Products.FreeShipping")
+        </strong>
+        <span class="d-block text-small">(Excludes Hawaii & Alaska)</span>
+    </div>
+}
+@if (free50)
+{
+    <div class="d-flex align-items-center free-shipping">
+        <strong class="margin-inline-end-2">
+            @T("Products.FreeShipping")
+        </strong>
+        <span class="d-block text-small">in the 50 United States </span>
+    </div>
+}
+
+@if (Model.FreeShippingNotificationEnabled && Model.IsFreeShipping || !string.IsNullOrWhiteSpace(Model.DeliveryDate))
+{
+    <div class="delivery">
+        <script asp-location="Footer">
+            $(document).on("product_attributes_changed", function (data) {
+                if (data.changedData.isFreeShipping) {
+                    $("#free-shipping-"+data.changedData.productId).removeClass("invisible");
+                } else {
+                    $("#free-shipping-"+data.changedData.productId).addClass("invisible");
+                }
+            });
+        </script>
+
+        @if (Model.FreeShippingNotificationEnabled && Model.IsFreeShipping)
+        {
+            <div id="free-shipping-@Model.Id" class="free-shipping">@T("Products.FreeShipping")</div>
+        }
+       
+        
+        @if (!string.IsNullOrWhiteSpace(Model.DeliveryDate))
+        {
+            <div class="delivery-date">
+                <span class="label">@T("Products.DeliveryDate"):</span>
+                <span class="value">@Model.DeliveryDate</span>
+            </div>
+        }
+    </div>
+}

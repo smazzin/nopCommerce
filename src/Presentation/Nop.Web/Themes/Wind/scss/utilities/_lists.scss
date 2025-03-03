@@ -1,0 +1,39 @@
+@use "../abstracts/" as *;
+
+@mixin list-style-none {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.breadcrumb ul {
+	@include list-style-none;
+}
+
+.list-unstyled,
+.group, 
+.list,
+.sublist,
+.unstyled-list,
+.menu-main,
+.menu-sublist,
+.networks {
+	@include list-style-none;
+}
+
+.header-links ul {
+	@include list-style-none;
+}
+
+.list-group {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+
+	&-item {
+		padding: .75rem;
+		border-bottom: 1px solid var(--clr-neutral-100);
+	}
+}

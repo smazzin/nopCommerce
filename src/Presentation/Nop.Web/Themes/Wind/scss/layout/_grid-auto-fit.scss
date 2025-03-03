@@ -1,0 +1,18 @@
+@use "../abstracts/" as *;
+
+.grid-auto-fit {
+  display: grid;
+  grid-gap: var(--grid-gap, 1rem);
+  grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
+}
+
+.item-grid {
+  display: grid;
+  grid-gap: var(--grid-gap, 1rem);
+  // mobile first
+  grid-template-columns: repeat(auto-fill, minmax(min(150px, 100%), 2fr));
+  // desktop
+  @include mq (medium) {
+    grid-template-columns: repeat(auto-fill, minmax(min(250px, 100%), 1fr));
+  }
+}

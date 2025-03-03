@@ -1,0 +1,79 @@
+@model TopMenuModel.CategoryLineModel
+    @if (Model.Category.SubCategories.Count > 0) {
+        <text><li class="menu-item-has-children"></text>
+    }
+    else {
+        <text><li></text>
+    }
+    @if (Model.Category.SubCategories.Count > 0) {
+        <text><a href="#"> <i class="fa fa-angle-down"></i></text>
+    }
+    else {
+        <text><a href="@Url.RouteUrl("Category", new { SeName = Model.Category.SeName })"></text>
+    }
+    
+        <span class="top-nav-link-title">
+            @Model.Category.Name
+        </span>
+        @if (Model.Category.NumberOfProducts.HasValue)
+        {
+            <text> </text>@T("Categories.TotalProducts", Model.Category.NumberOfProducts.Value)
+        }
+    </a>
+    @{
+        //subcategories
+        var subCategories = Model.ResponsiveMobileMenu ?
+        
+            //responsive (all categories)
+            Model.Category.SubCategories :
+            //standard design (only categories with "IncludeInTopMenu")
+            Model.Category.SubCategories.Where(x => x.IncludeInTopMenu).ToList();
+            
+
+        var levelClass = "";
+
+        if (Model.Level == 0)
+        {
+            levelClass = "first-level sub-menu mega-menu mega-menu-column-4";
+        }
+        
+        @if (Model.Category.SubCategories.Count > 0)
+    
+        {
+            <div class="sublist @levelClass">
+                @if (Model.Level == 0)
+                {
+                   <div class="list-item">
+                        <a href="@Url.RouteUrl("Category", new { SeName = Model.Category.SeName })"> 
+                            @Model.Category.Name
+                        </a>
+                       <ul class="menu-sublist">
+                            @foreach (var subCategory in subCategories)
+                            {
+                                <li>
+                                    <a href="@Url.RouteUrl("Category", new { SeName = subCategory.SeName })">
+                                        @subCategory.Name
+                                        @if (Model.Category.NumberOfProducts.HasValue)
+                                        {
+                                            <text> </text>@T("Categories.TotalProducts", Model.Category.NumberOfProducts.Value)
+                                        }
+                                    </a>
+                                </li>
+                            }
+                       </ul>
+                   </div>
+               }     
+                @foreach(var subCat in subCategories)
+                {
+                    var categoryLineModel = new TopMenuModel.CategoryLineModel
+                    {
+                        Category = subCat,
+                        Level = Model.Level + 2,
+                        ResponsiveMobileMenu = Model.ResponsiveMobileMenu
+                    };
+                    @await Html.PartialAsync("_CategoryLine.SubMenu", categoryLineModel ) 
+                }
+            </div>
+        }
+    }
+</li>

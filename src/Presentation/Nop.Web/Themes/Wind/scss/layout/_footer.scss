@@ -1,0 +1,38 @@
+@use "../abstracts/" as *;
+
+footer {
+    //background-color: var(--clr-primary-500);
+    color: var(--clr-neutral-800);
+    padding: 2rem 0;
+    margin-top: auto;
+}
+
+.footer-upper {
+	display: grid;
+	@include mq(large) {
+		grid-template-columns: repeat(4, 1fr);
+	}
+
+	grid-template-columns: repeat(2, 1fr);
+
+	gap: 1rem;
+	a {
+		color: var(--clr-neutral-800);
+		text-decoration: underline;
+	}
+}
+
+.footer-lower {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding-top: 1rem;
+}
+
+.footer-block li {
+	padding-top: 0.5rem;
+}
+
+.featured-brands h6 {
+	color: var(--clr-neutral-800);
+}

@@ -1,0 +1,146 @@
+﻿@model ProductOverviewModel
+
+@using Nop.Core
+@using Nop.Core.Domain.Catalog
+@using Nop.Core.Domain.Orders
+@using Nop.Core.Domain.Tax
+
+@inject CatalogSettings catalogSettings
+@inject IWorkContext workContext
+@* Using for product price *@
+@using Nop.Core.Infrastructure;
+@using Nop.Services.Catalog;
+@{
+    //prepare "Add to cart" AJAX link
+    var addtocartlink = "";
+    var shoppingCartTypeId = (int)ShoppingCartType.ShoppingCart;
+    var quantity = 1;
+    if (Model.ProductPrice.ForceRedirectionAfterAddingToCart)
+    {
+        addtocartlink = Url.RouteUrl("AddProductToCart-Catalog", new { productId = Model.Id, shoppingCartTypeId = shoppingCartTypeId, quantity = quantity, forceredirection = Model.ProductPrice.ForceRedirectionAfterAddingToCart });
+    }
+    else
+    {
+        addtocartlink = Url.RouteUrl("AddProductToCart-Catalog", new { productId = Model.Id, shoppingCartTypeId = shoppingCartTypeId, quantity = quantity });
+    }
+
+    var addtowishlistlink = Url.RouteUrl("AddProductToCart-Catalog", new { productId = Model.Id, shoppingCartTypeId = (int)ShoppingCartType.Wishlist, quantity = quantity });
+    var addtocomparelink = Url.RouteUrl("AddProductToCompare", new { productId = Model.Id });
+    // Does product have discount
+    var pd = await EngineContext.Current.Resolve<IProductService>().GetProductByIdAsync(Model.Id);
+    var productdiscount = pd.HasDiscountsApplied;
+}
+<div class="h-100 product-item" data-productid="@Model.Id">
+    <div class="picture">
+        @if (Model.PictureModels.Count > 1)
+        {
+            <div class="swiper" id="swiper-@Model.Id" dir="@Html.GetUIDirection(!await Html.ShouldUseRtlThemeAsync())">
+                <div class="swiper-wrapper">
+                    @foreach (var picture in Model.PictureModels)
+                    {
+                        <a class="swiper-slide" href="@(Url.RouteUrl<Product>(new { SeName = Model.SeName }))" title="@picture.Title">
+                            <img alt="@picture.AlternateText" src="@picture.ImageUrl" title="@picture.Title" />
+                        </a>
+                    }
+                </div>
+                <!-- Add Pagination -->
+                <div class="swiper-pagination"></div>
+            </div>
+            <script asp-location="Footer">
+                new Swiper('#swiper-@(Model.Id)', {
+                    pagination: {
+                        clickable: true,
+                        el: '.swiper-pagination',
+                    },
+                });
+            </script>
+        }
+        else
+        {
+            var picture = Model.PictureModels.FirstOrDefault();
+            <environment include="Development">
+                <a href="@(Url.RouteUrl<Product>(new { SeName = Model.SeName }))" title="@picture?.AlternateText">
+                    <img alt="@picture?.AlternateText" src="https://placehold.co/300x300?text=@picture?.Title" title="@picture?.Title" width="300" height="300" />
+                </a>
+            </environment>
+            <environment exclude="Development">
+                <a href="@(Url.RouteUrl<Product>(new { SeName = Model.SeName }))" title="@picture?.Title">
+                    <img alt="@picture?.AlternateText" src="@picture?.ImageUrl" title="@picture?.Title" width="300" height="300" loading="lazy" />
+                </a>
+            </environment>
+        }
+    </div>
+    <div class="details">
+        <h6 class="product-title fw-normal">
+            <a href="@(Url.RouteUrl<Product>(new { SeName = Model.SeName }))">@Model.Name</a>
+        </h6>
+        @if (catalogSettings.ShowSkuOnCatalogPages && !string.IsNullOrEmpty(Model.Sku))
+        {
+            <p class="sku text-xs">
+                Part #: @Model.Sku
+            </p>
+        }
+        @if (Model.ReviewOverviewModel.AllowCustomerReviews)
+        {
+            var ratingPercent = 0;
+            if (Model.ReviewOverviewModel.TotalReviews != 0)
+            {
+                ratingPercent = ((Model.ReviewOverviewModel.RatingSum * 100) / Model.ReviewOverviewModel.TotalReviews) / 5;
+            }
+
+            <div class="product-rating-box" title="@string.Format(T("Reviews.TotalReviews").Text, Model.ReviewOverviewModel.TotalReviews)">
+                <div class="rating">
+                    <div style="width: @(ratingPercent)%">
+                    </div>
+                </div>
+            </div>
+        }
+        @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.ProductBoxAddinfoBefore, additionalData = Model })
+        <div class="prices">
+            @if (productdiscount)
+            {
+                <text></text>
+            }
+            else if (!string.IsNullOrEmpty(Model.ProductPrice.OldPrice))
+            {
+                <s class="old-price">@Model.ProductPrice.OldPrice</s>
+            }
+            @if (productdiscount)
+            {
+                <s class="price-in-cart h4 fw-bold">$@pd.Price.ToString("0,000.00", System.Globalization.CultureInfo.InvariantCulture)</s>
+            }
+            else if (!string.IsNullOrEmpty(Model.ProductPrice.OldPrice))
+            {
+                <span class="actual-price h4 fw-bold">@Model.ProductPrice.Price</span>
+            }
+            else
+            {
+                <span class="non-discounted-price h4 fw-bold">@Model.ProductPrice.Price</span>
+            }
+            @if (Model.ProductPrice.DisplayTaxShippingInfo)
+            {
+                var inclTax = await workContext.GetTaxDisplayTypeAsync() == TaxDisplayType.IncludingTax;
+                //tax info is already included in the price (incl/excl tax). that's why we display only shipping info here
+                //of course, you can modify appropriate locales to include VAT info there
+                <span class="tax-shipping-info">
+                    @T(inclTax ? "Products.Price.TaxShipping.InclTax" : "Products.Price.TaxShipping.ExclTax", Url.RouteTopicUrl("shippinginfo"))
+                </span>
+            }
+            @if (!string.IsNullOrEmpty(Model.ProductPrice.BasePricePAngV))
+            {
+                <div class="base-price-pangv">
+                    @Model.ProductPrice.BasePricePAngV
+                </div>
+            }
+        </div>
+        @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.ProductBoxAddinfoMiddle, additionalData = Model })
+        @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.ProductBoxAddinfoAfter, additionalData = Model })
+
+        @if (productdiscount)
+        {
+            <div class="lower-price-in-cart fw-bold">
+                <span>See Lower Price in Cart</span>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,42 @@
+{
+  "name": "wind",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "watch:sass": "sass --watch scss:Content/css",
+    "postcss-watch": "postcss Content/css/*.css --use autoprefixer --replace",
+    "postbuild": "postcss Content/css/*.css --use autoprefixer --replace --no-map",
+    "build:fonts": "cp -r node_modules/@fortawesome/fontawesome-free/webfonts Content/webfonts",
+    "build:fontawesome": "cp -r node_modules/@fortawesome/fontawesome-free/css/fontawesome.min.css Content/css",
+    "build:solid": "cp -r node_modules/@fortawesome/fontawesome-free/css/solid.min.css Content/css",
+    "watch": "npm-run-all --parallel watch:sass postcss-watch",
+    "build:app": "parcel build js/app.js --dist-dir Content/js/",
+    "watch:parcel": "parcel watch js/app.js --dist-dir Content/js/"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "autoprefixer": "^10.4.0",
+    "cssnano": "5.1.14",
+    "npm-run-all": "^4.1.5",
+    "postcss": "^8.4.5",
+    "postcss-cli": "^9.0.1",
+    "sass": "^1.57.1",
+    "@types/debounce-promise": "^3.1.6",
+    "@types/qs": "^6.9.6",
+    "@algolia/client-search": "4.16.0",
+    "parcel": "2.8.3"
+  },
+  "dependencies": {
+    "@algolia/autocomplete-js": "1.9.2",
+    "@algolia/autocomplete-plugin-query-suggestions": "1.11.1",
+    "@algolia/autocomplete-plugin-recent-searches": "^1.11.1",
+    "@algolia/autocomplete-theme-classic": "1.9.2",
+    "algoliasearch": "4.16.0",
+    "instantsearch.js": "^4.58.0",
+    "preact": "10.13.2",
+    "qs": "6.11.1",
+    "@fortawesome/fontawesome-free": "^6.3.0"
+  }
+}

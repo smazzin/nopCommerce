@@ -1,0 +1,40 @@
+﻿@model IList<ManufacturerBriefInfoModel>
+
+@using Nop.Core.Domain.Catalog
+
+@{
+    // get manufacturer picture using nop core infrastructure
+	var pictureService = Nop.Core.Infrastructure.EngineContext.Current.Resolve<Nop.Services.Media.IPictureService>();
+	var manufacturerService = Nop.Core.Infrastructure.EngineContext.Current.Resolve<Nop.Services.Catalog.IManufacturerService>();
+}
+
+@if (Model.Count > 0)
+{
+    <div class="manufacturers">
+        <span class="value">
+            @for (var i = 0; i < Model.Count; i++)
+            {
+                var item = Model[i];
+                var manufacturer = await manufacturerService.GetManufacturerByIdAsync(item.Id);
+			    var pictureUrl = await pictureService.GetPictureUrlAsync(manufacturer.PictureId, 50);
+                
+                @* if (!String.IsNullOrWhiteSpace(await pictureService.GetPictureUrlAsync(manufacturer.PictureId, 50, false)))
+                {
+                    <div class="mr-auto">
+                        <a href="@Url.RouteUrl("Manufacturer", new { SeName = item.SeName })">
+                            <img class="img-fluid" alt="@item.Name" src="@pictureUrl" title="@item.Name" loading="lazy" />
+                        </a>
+                    </div>
+                }
+                else {
+
+                    <a href="@Url.RouteUrl("Manufacturer", new { SeName = item.SeName })">@item.Name</a>
+                } *@
+				@* only show text *@
+				<a class="text-underline" href="@Url.RouteUrl("Manufacturer", new { SeName = item.SeName })">Shop @item.Name</a>
+                @await Component.InvokeAsync("Widget", new { widgetZone = "manufacturer_oem", additionalData = item.Id })
+                @await Component.InvokeAsync("Widget", new { widgetZone = "manufacturer_made_in_usa", additionalData = item.Id })
+            }
+        </span>
+    </div>
+}

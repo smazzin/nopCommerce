@@ -1,0 +1,93 @@
+@use "../abstracts/" as *;
+
+// responsive iframe 
+p iframe {
+	max-width: 100%;
+}
+
+
+.product-essential {
+	display: grid;
+	grid-gap: var(--grid-gap, 1rem);
+	// desktop
+	@include mq(medium) {
+		grid-template-areas: 
+		"gallery overview"
+		"full-description full-description";
+	}
+	// mobile
+	grid-template-areas: 
+	"gallery"
+	"overview"
+	"full-description"
+	"full-description";
+}
+
+.gallery {
+	grid-area: gallery;
+}
+
+.overview {
+	grid-area: overview;
+}
+
+.full-description {
+	grid-area: full-description;
+	min-width: 100%;
+}
+
+.add-to-cart-panel {
+	display: flex;
+	align-items: center;
+	grid-column-gap: var(--grid-gap, 1rem);
+}
+
+.ajax-cart-button-wrapper {
+	flex: auto;
+}
+
+[data-style="stock-tooltip"] {
+	display: inline-flex;
+	padding-inline: .675rem;
+	border-radius: 1rem;
+	font-size: var(--fs-200);
+}
+
+.in-stock {
+	background-color: var(--clr-success-100);
+	color: var(--clr-neutral-500);
+}
+
+.varies-stock {
+	background-color: var(--clr-neutral-100);
+	color: var(--clr-primary-500);
+}
+
+.so-stock {
+	background-color: var(--clr-warning-100);
+	color: var(--clr-warning-700);
+}
+
+.low-stock {
+	background-color: var(--clr-warning-100);
+	color: var(--clr-neutral-800);
+}
+
+.shipping-title,
+.estimated-delivery {
+	color: var(--clr-neutral-500);
+}
+
+.product-title {
+	font-size: var(--fs-300);
+	& a:hover {
+		text-decoration: none;
+	}
+}
+
+.picture-thumbs {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: start;
+	margin-top: 1rem;
+}

@@ -1,0 +1,225 @@
+﻿@model ProductDetailsModel.AddToCartModel
+@using Nop.Core.Domain.Orders
+
+@using Nop.Core.Infrastructure;
+@using Nop.Services.Catalog;
+
+
+@{
+    //current category ID
+    var currentCategoryId = 0;
+    if (Url.ActionContext.RouteData.Values["controller"].ToString().Equals("catalog", StringComparison.InvariantCultureIgnoreCase) &&
+        Url.ActionContext.RouteData.Values["action"].ToString().Equals("category", StringComparison.InvariantCultureIgnoreCase))
+    {
+        currentCategoryId = Convert.ToInt32(Url.ActionContext.RouteData.Values["categoryId"].ToString());
+    }
+
+
+    //current manufacturer ID
+    var currentManufacturerId = 0;
+    if (Url.ActionContext.RouteData.Values["controller"].ToString().Equals("catalog", StringComparison.InvariantCultureIgnoreCase) &&
+        Url.ActionContext.RouteData.Values["action"].ToString().Equals("manufacturer", StringComparison.InvariantCultureIgnoreCase))
+    {
+        currentManufacturerId = Convert.ToInt32(Url.ActionContext.RouteData.Values["manufacturerId"].ToString());
+    }
+
+
+    //current product ID
+    var currentProductId = 0;
+    if (Url.ActionContext.RouteData.Values["controller"].ToString().Equals("product", StringComparison.InvariantCultureIgnoreCase) &&
+        Url.ActionContext.RouteData.Values["action"].ToString().Equals("productdetails", StringComparison.InvariantCultureIgnoreCase))
+    {
+        currentProductId = Convert.ToInt32(Url.ActionContext.RouteData.Values["productId"].ToString());
+    }
+
+    //var callforbestprice = await EngineContext.Current.Resolve<ISpecificationAttributeService>().GetProductSpecificationAttributesAsync(Model.ProductId);
+    //var bestprice = callforbestprice.Any(a => a.SpecificationAttributeOptionId.Equals(655));
+
+    
+    @* var specAttributeOption = await EngineContext.Current.Resolve<ISpecificationAttributeService>().GetSpecificationAttributeOptionByIdAsync(bestprice ? 655 : 0);
+
+    var specAttribute = await EngineContext.Current.Resolve<ISpecificationAttributeService>().GetSpecificationAttributeByIdAsync(specAttributeOption.SpecificationAttributeId);
+
+    var specName = specAttribute.Name; *@
+
+	// var product = await EngineContext.Current.Resolve<IProductService>().GetProductByIdAsync(Model.ProductId);
+	// var Price = product.Price;
+	// var Sku = product.Sku;
+	// var Name = product.Name;
+
+	// var ProductManufacturer = await EngineContext.Current.Resolve<IManufacturerService>().GetProductManufacturersByProductIdAsync(product.Id);
+	// var ManufacturerId = ProductManufacturer?.FirstOrDefault()?.ManufacturerId;
+	// var Manfacturer = ManufacturerId != null ? await EngineContext.Current.Resolve<IManufacturerService>().GetManufacturerByIdAsync(ManufacturerId.Value) : null;
+	// var Brand = Manfacturer?.Name ?? "No Manufacturer";
+
+	// var ProductCategory = await EngineContext.Current.Resolve<ICategoryService>().GetProductCategoriesByProductIdAsync(product.Id);
+	// var CategoryId = ProductCategory?.FirstOrDefault()?.CategoryId;
+	// var Category = CategoryId != null ? await EngineContext.Current.Resolve<ICategoryService>().GetCategoryByIdAsync(CategoryId.Value) : null;
+	// var CategoryName = Category?.Name ?? "No Category";
+}
+
+@if (Model.UpdatedShoppingCartItemId > 0)
+{
+    <input asp-for="UpdatedShoppingCartItemId" type="hidden" />
+}
+@if (!Model.DisableBuyButton || Model.CustomerEntersPrice)
+{
+    <div class="add-to-cart flow">
+        @if (Model.CustomerEntersPrice)
+        {
+            <div class="customer-entered-price">
+                <div class="price-input">
+                    <label asp-for="CustomerEnteredPrice" asp-postfix=":" class="enter-price-label"></label>
+                    @*round price*@
+                    <input asp-for="CustomerEnteredPrice" value="@Convert.ToInt32(Math.Ceiling(Model.CustomerEnteredPrice))" class="enter-price-input" />
+                </div>
+                <div class="price-range">
+                    @Model.CustomerEnteredPriceRange
+                </div>
+            </div>
+        }
+        @if (!string.IsNullOrEmpty(Model.MinimumQuantityNotification))
+        {
+            <div class="min-qty-notification">@Model.MinimumQuantityNotification</div>
+        }
+        @if (!Model.DisableBuyButton)
+        {
+            <div class="add-to-cart-panel">
+                @* <label asp-for="EnteredQuantity" asp-postfix=":" class="qty-label"></label> *@
+                @if (Model.AllowedQuantities.Count > 0)
+                {
+                    <select asp-for="EnteredQuantity" asp-items="Model.AllowedQuantities" id="product_enteredQuantity_@Model.ProductId" class="qty-dropdown" aria-label=@T("Products.Qty.AriaLabel")></select>
+                    <script asp-location="Footer">
+                        $(document).ready(function () {
+                            $("#product_enteredQuantity_@Model.ProductId").on("change", function () {
+                                var data = {
+                                    productId: @Model.ProductId,
+                                    quantity: $('#product_enteredQuantity_@Model.ProductId').find(":selected").text()
+                                };
+                                $(document).trigger({ type: "product_quantity_changed", changedData: data });
+                            });
+                        });
+                    </script>
+                }
+                else
+                {
+                    <div class="form-floating">
+                        <input asp-for="EnteredQuantity" id="product_enteredQuantity_@Model.ProductId" class="form-control qty-input" type="text" aria-label=@T("Products.Qty.AriaLabel") />
+                        <script asp-location="Footer">
+                            //when a customer clicks 'Enter' button we submit the "add to cart" button (if visible)
+                            $(document).ready(function() {
+                                $("#@Html.IdFor(model => model.EnteredQuantity)").on("keydown", function(event) {
+                                    if (event.keyCode == 13) {
+                                        $("#add-to-cart-button-@Model.ProductId").trigger("click");
+                                        return false;
+                                    }
+                                });
+
+                                $("#product_enteredQuantity_@Model.ProductId").on("input propertychange paste", function () {
+                                    var data = {
+                                        productId: @Model.ProductId,
+                                        quantity: $('#product_enteredQuantity_@Model.ProductId').val()
+                                    };
+                                    $(document).trigger({ type: "product_quantity_changed", changedData: data });
+                                });
+                            });
+                        </script>
+                        <label asp-for="EnteredQuantity" asp-postfix=":" class="qty-label"></label>
+                    </div>
+                }
+                @{
+                    var addToCartText = "";
+                    if (Model.UpdatedShoppingCartItemId > 0 && Model.UpdateShoppingCartItemType.HasValue && Model.UpdateShoppingCartItemType.Value == ShoppingCartType.ShoppingCart)
+                    {
+                        addToCartText = T("ShoppingCart.AddToCart.Update").Text;
+                    }
+                    else
+                    {
+                        addToCartText = T("ShoppingCart.AddToCart").Text;
+                        if (Model.IsRental)
+                        {
+                            addToCartText = T("ShoppingCart.Rent").Text;
+                        }
+                        if (Model.AvailableForPreOrder)
+                        {
+                            addToCartText = T("ShoppingCart.PreOrder").Text;
+                        }
+                    }
+                    <button type="button" id="add-to-cart-button-@Model.ProductId" class="button-1 button-block add-to-cart-button" data-type="accent-success" data-productid="@Model.ProductId" onclick="AjaxCart.addproducttocart_details('@Url.RouteUrl("AddProductToCart-Details", new {productId = Model.ProductId, shoppingCartTypeId = (int) ShoppingCartType.ShoppingCart})', '#product-details-form');return false;">@addToCartText</button>
+                }
+            </div>
+            if (!string.IsNullOrEmpty(Model.PreOrderAvailabilityStartDateTimeUserTime))
+            {
+                <div class="pre-order-availability-date">
+                    <label>@T("ShoppingCart.PreOrderAvailability"):</label>
+                    @Html.Raw(Model.PreOrderAvailabilityStartDateTimeUserTime)
+                </div>
+            }
+        }
+    </div>
+}
+
+
+@* @if (Model.DisableBuyButton && !bestprice)
+{
+    <div class="d-grid">
+        <div class="button-1 call-to-order-button" data-type="outline-primary">
+            <i class="fas fa-phone-square-alt margin-inline-2"></i>
+            <span class="margin-inline-end-2">Call to order</span>
+            @await Component.InvokeAsync("WidgetsPhoneNumber", new { currentCategoryId = currentCategoryId, currentProductId = currentProductId })
+        </div>
+    </div>
+}
+@if (bestprice)
+{
+    <div class="d-grid">
+        <div class="button-1 call-to-order-button" data-type="outline-danger">
+            <i class="fas fa-phone-square-alt margin-inline-2"></i>
+            <span class="margin-inline-end-2">Call for our best price</span>
+            @await Component.InvokeAsync("WidgetsPhoneNumber", new { currentCategoryId = currentCategoryId, currentProductId = currentProductId })
+        </div>
+    </div>
+} 
+*@
+@if (Model.DisableBuyButton)
+{
+	<div class="d-grid">
+		<div class="button-1 call-to-order-button" data-type="outline-primary">
+			<i class="fas fa-phone-square-alt margin-inline-2"></i>
+			<span class="margin-inline-end-2">Call to order</span>
+			@await Component.InvokeAsync("WidgetsPhoneNumber", new { currentCategoryId = currentCategoryId, currentProductId = currentProductId })
+		</div>
+	</div>
+}
+@await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.ProductDetailsAddInfo, additionalData = Model })
+@* <script>
+	document.addEventListener('DOMContentLoaded', function () {
+		document.body.addEventListener("click", function (event) {
+			if (event.target.id === "add-to-cart-button-" + "@Model.ProductId") {
+				console.log('Button clicked!'); // Debug: Confirm click is registered
+
+				// Ensure dataLayer exists
+				window.dataLayer = window.dataLayer || [];
+				dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object
+
+				// Push the new ecommerce object
+				dataLayer.push({
+					event: "add_to_cart",
+					ecommerce: {
+						currency: "USD",
+						value: @Price * @Model.EnteredQuantity,
+						items: [{
+							item_id: "@Sku",
+							item_name: "@Name",
+							index: 0,
+							item_brand: "@Brand",
+							item_category: "@CategoryName",
+							price: @Price,
+							quantity: @Model.EnteredQuantity
+						}]
+					}
+				});
+			}
+		});
+	});
+</script> *@

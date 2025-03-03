@@ -1,0 +1,59 @@
+@use "../abstracts/" as *;
+
+$utilities: ();
+
+$utilities: map-merge(
+	(
+		"justify-content": (
+			"start": flex-start,
+			"end": flex-end,
+			"center": center,
+			"between": space-between,
+			"around": space-around,
+			"evenly": space-evenly
+		),
+		"align-items": (
+			"start": flex-start,
+			"end": flex-end,
+			"center": center,
+			"baseline": baseline,
+			"stretch": stretch
+		),
+		"align-content": (
+			"start": flex-start,
+			"end": flex-end,
+			"center": center,
+			"between": space-between,
+			"around": space-around,
+			"stretch": stretch
+		),
+		"align-self": (
+			"start": flex-start,
+			"end": flex-end,
+			"center": center,
+			"baseline": baseline,
+			"stretch": stretch
+		),
+		"flex-direction": (
+			"row": row,
+			"row-reverse": row-reverse,
+			"column": column,
+			"column-reverse": column-reverse
+		)
+	),
+	$utilities
+ );
+
+// each loop thorugh the aliases to make utility classes
+// for example: .d-flex { display: flex; }
+@each $utility, $values in $utilities {
+	@each $alias, $value in $values {
+		.#{$utility}-#{$alias} {
+			#{$utility}: $value;
+		}
+	}
+}
+
+.flex-column {
+	flex-direction: column;
+}

@@ -1,0 +1,206 @@
+@use "../abstracts/" as *;
+
+body, html {
+    height: 100%;
+}
+
+.master-wrapper-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.page-body {
+    margin-block-end: 1.25rem;
+}
+
+.product-title {
+  margin: 0.5rem 0;
+  a {
+    color: var(--clr-neutral-800);
+    text-decoration: none; // remove underline
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.actual-price {
+  color: var(--clr-neutral-800);
+}
+
+.old-product-price {
+  color: var(--clr-neutral-400);
+  font-size: var(--fs-300);
+}
+
+.old-price {
+  color: var(--clr-neutral-400);
+}
+
+.price-in-cart {
+  color: var(--clr-neutral-800);
+}
+
+.qty-input {
+  max-width: 90px;
+}
+
+.lower-price-in-cart {
+  font-size: var(--fs-200);
+  color: var(--clr-success-500);
+}
+
+// move to utilities
+.h-100 {
+  height: 100%!important;
+}
+
+// display none
+.d-none {
+  display: none!important;
+}
+
+// hidden on desktop
+.hidden-desktop {
+  // display: block;
+  @include mq(large) {
+    display: none;
+  }
+}
+
+// hidden on mobile
+.hidden-mobile {
+  display: none;
+  @include mq(large) {
+    display: block;
+  }
+}
+
+.algolia-autocomplete {
+  position: relative;
+}
+
+// style pagination links
+.pager {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-align: center;
+  li {
+    display: inline-block;
+    &.current-page {
+      padding: 0.5rem 1rem;
+      background-color: var(--clr-neutral-100);
+      border-color: var(--clr-primary-400);
+      margin: 0 0.25rem;
+      color: var(--clr-accent-400);
+      &:hover {
+        background-color: var(--clr-neutral-100);
+      }
+    }
+    a {
+      padding: 0.5rem 1rem;
+      display: inline-block;
+      border: 1px solid var(--clr-neutral-100);
+      // border-radius: $border-radius-1;
+      margin: 0 0.25rem;
+      color: var(--clr-neutral-700);
+      &:hover {
+        background-color: var(--clr-neutral-100);
+      }
+    }
+  }
+}
+
+// manufacturer list
+.manufacturer-item {
+  background-color: var(--clr-neutral-000);
+	border: 1px solid var(--clr-neutral-100);
+	border-radius: 0.5vw;
+	box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+	display: flex;
+  flex-direction: column;
+  align-items: center;
+	padding: 1.25rem;
+	height: 100%;
+
+  .picture {
+    justify-content: center;
+  }
+}
+
+.required {
+  color: var(--clr-danger-400);
+}
+
+// legacy styles
+.text-danger {
+  color: var(--clr-danger-400);
+}
+
+.bold {
+  --font-weight: var(--fw-600);
+}
+
+.font-weight-bold {
+  --font-weight: var(--fw-600);
+}
+
+.alert-warning {
+  background-color: var(--clr-warning-100);
+  border-color: var(--clr-warning-400);
+  color: var(--clr-neutral-800);
+  padding: 1.25rem;
+  border-radius: .5vw;
+}
+
+.alert-danger {
+  background-color: var(--clr-danger-100);
+  border-color: var(--clr-danger-400);
+  color: var(--clr-danger-400);
+  padding: 1.25rem;
+  border-radius: .5vw;
+}
+
+.alert-info {
+  background-color: var(--clr-accent-100);
+  border-color: var(--clr-accent-400);
+  color: var(--clr-accent-800);
+  padding: 1.25rem;
+  border-radius: .5vw;
+}
+
+.alert-success {
+  background-color: var(--clr-success-100);
+  border-color: var(--clr-success-400);
+  color: var(--clr-success-800);
+  padding: 1.25rem;
+  border-radius: .5vw;
+}
+
+.discon {
+  background-color: var(--clr-accent-100);
+  border-color: var(--clr-accent-400);
+  color: var(--clr-accent-800);
+  padding: 1.25rem;
+  border-radius: .5vw;
+}
+
+.info-alert-warning {
+  display: inline-flex;
+  align-items: center;
+  // border: 1px solid var(--clr-neutral-200);
+  // color: var(--clr-neutral-400);
+  background: var(--clr-warning-100);
+  // padding: .425em;
+  padding-inline: .675rem;
+  // border-radius: .5vw;
+  border-radius: 1rem;
+  // width: 100%;
+  background-repeat: no-repeat;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 50 50"><path fill="black" d="M25,2C12.297,2,2,12.297,2,25s10.297,23,23,23s23-10.297,23-23S37.703,2,25,2z"></path><path fill="white" d="M25,11c1.657,0,3,1.343,3,3s-1.343,3-3,3s-3-1.343-3-3S23.343,11,25,11z M29,38h-2h-4h-2v-2h2V23h-2v-2h2h4v2v13h2V38z"></path></svg>');
+  background-size: 1.125rem;
+  background-position: .5rem center;
+  padding-inline-start: 2.125rem;
+}

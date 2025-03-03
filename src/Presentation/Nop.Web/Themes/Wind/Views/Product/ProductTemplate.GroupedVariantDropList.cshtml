@@ -1,0 +1,317 @@
+@model ProductDetailsModel
+
+@using Nop.Core
+@using Nop.Core.Domain.Catalog
+@using Nop.Core.Domain.Seo
+@using Nop.Services.Html
+
+@using Nop.Core.Infrastructure
+@using Nop.Services.Catalog
+
+@inject IHtmlFormatter htmlFormatter
+@inject IWebHelper webHelper
+@inject SeoSettings seoSettings
+
+@{
+    Layout = "_ColumnsOne";
+
+    //title
+    NopHtml.AddTitleParts(!string.IsNullOrEmpty(Model.MetaTitle) ? Model.MetaTitle : Model.Name);
+    //meta
+    NopHtml.AddMetaDescriptionParts(Model.MetaDescription);
+    NopHtml.AddMetaKeywordParts(Model.MetaKeywords);
+    //page class
+    NopHtml.AppendPageCssClassParts("html-product-details-page");
+
+    //swiper.js for related products
+    // NopHtml.AppendScriptParts(ResourceLocation.Footer, "https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js");
+    // NopHtml.AppendCssFileParts("https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css");
+
+    //canonical URL
+    if (seoSettings.CanonicalUrlsEnabled)
+    {
+        var productUrl = Url.RouteUrl<Product>(new { SeName = Model.SeName }, webHelper.GetCurrentRequestProtocol()).ToLowerInvariant();
+        NopHtml.AddCanonicalUrlParts(productUrl, seoSettings.QueryStringInCanonicalUrlsEnabled);
+    }
+
+    //open graph META tags
+    if (seoSettings.OpenGraphMetaTags)
+    {
+        NopHtml.AddHeadCustomParts("<meta property=\"og:type\" content=\"product\" />");
+        NopHtml.AddHeadCustomParts("<meta property=\"og:title\" content=\"" + Html.Encode(Model.Name) + "\" />");
+        NopHtml.AddHeadCustomParts("<meta property=\"og:description\" content=\"" + Html.Encode(htmlFormatter.StripTags(Model.MetaDescription)) + "\" />");
+        NopHtml.AddHeadCustomParts("<meta property=\"og:image\" content=\"" + Model.DefaultPictureModel.ImageUrl + "\" />");
+        NopHtml.AddHeadCustomParts("<meta property=\"og:image:url\" content=\"" + Model.DefaultPictureModel.ImageUrl + "\" />");
+        NopHtml.AddHeadCustomParts("<meta property=\"og:url\" content=\"" + webHelper.GetThisPageUrl(false) + "\" />");
+        NopHtml.AddHeadCustomParts("<meta property=\"og:site_name\" content=\"" + Html.Encode(Model.CurrentStoreName) + "\" />");
+    }
+
+    //Twitter META tags
+    if (seoSettings.TwitterMetaTags)
+    {
+        NopHtml.AddHeadCustomParts("<meta property=\"twitter:card\" content=\"summary\" />");
+        NopHtml.AddHeadCustomParts("<meta property=\"twitter:site\" content=\"" + Html.Encode(Model.CurrentStoreName) + "\" />");
+        NopHtml.AddHeadCustomParts("<meta property=\"twitter:title\" content=\"" + Html.Encode(Model.Name) + "\" />");
+        NopHtml.AddHeadCustomParts("<meta property=\"twitter:description\" content=\"" + Html.Encode(htmlFormatter.StripTags(Model.MetaDescription)) + "\" />");
+        NopHtml.AddHeadCustomParts("<meta property=\"twitter:image\" content=\"" + Model.DefaultPictureModel.ImageUrl + "\" />");
+        NopHtml.AddHeadCustomParts("<meta property=\"twitter:url\" content=\"" + webHelper.GetThisPageUrl(false) + "\" />");
+    }
+    bool bIsFirstRecord = true;
+
+    // Get non-discounted price for addsearch
+    var productPrice = Model.AssociatedProducts.Any()
+        ? Model.AssociatedProducts.Min(associatedProduct => associatedProduct.ProductPrice.PriceValue)
+        : Model.ProductPrice.PriceValue;
+    
+    <script asp-location="Footer" src="https://www.paypal.com/sdk/js?client-id=AWFwV1HxLDta0Rdl1mkwnVvx5l73WTFyGGf-yTXND1GTeSGukBTFIPwVebKIQN8YX1I2tL2LvLBqARpQ&components=messages"></script>
+}
+<!--product breadcrumb-->
+@section Breadcrumb
+{
+    @await Html.PartialAsync("_ProductBreadcrumb", Model.Breadcrumb)
+}
+@await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.ProductDetailsAfterBreadcrumb, additionalData = Model })
+<div class="page product-details-page">
+    <div class="page-body">
+        @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.ProductDetailsTop, additionalData = Model })
+        <form asp-route="Product" asp-route-sename="@Model.SeName" method="post" id="product-details-form">
+            @if (seoSettings.MicrodataEnabled)
+            {
+                @* @await Html.PartialAsync("_Microdata", Model) *@
+                @* @await Html.PartialAsync("_GroupedProductSchema", Model) *@
+            }
+            <div class="flow" data-productid="@Model.Id">
+                <div class="product-essential container">
+                    @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.ProductDetailsEssentialTop, additionalData = Model })
+                    <div class="gallery">
+                        <!--product pictures-->
+                        @await Html.PartialAsync("_ProductDetailsPictures", Model)
+                        <!--product videos-->
+                        @await Html.PartialAsync("_ProductDetailsVideos", Model)
+                    </div>
+                    <div class="overview flow">
+                        <!--manufacturers-->
+                        @await Html.PartialAsync("_ProductManufacturers", Model.ProductManufacturers)
+                        <div class="product-name">
+                            <h1>
+                                @Model.Name
+                            </h1>
+                        </div>
+                        @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.ProductDetailsOverviewTop, additionalData = Model })
+                        <!--associated products-->
+                        @if (Model.AssociatedProducts.Count == 0)
+                        {
+                            <div class="no-associated-products">
+                                @T("Products.NoAssociatedProducts")
+                            </div>
+                        }
+                        else
+                        {
+                            @* The variant selection list *@
+                            <div class="variantSelectorContainer form-floating">
+                                <select id="product-variant-selector" class="form-select product-variant-selector">
+                                    @foreach (var variant in Model.AssociatedProducts)
+                                    {
+                                        if (!String.IsNullOrWhiteSpace(variant.Name))
+                                        {
+                                            <option value="@variant.Id">@variant.Sku</option>
+                                        }
+                                    }
+                                </select>
+                                <label class="variantSelectorLabel" for="product-variant-selector">@T("Nop.Plugin.ProductTemplates.GroupedInDropList.VariantSelectionLabel")</label>
+                            </div>
+                            @* The variant details. The list items are not visible on startup. *@
+                            <ul class="list-unstyled">
+                                @foreach (var variant in Model.AssociatedProducts)
+                                {
+                                    @* var productservice = EngineContext.Current.Resolve<IProductService>();
+                                    var pID = productservice.GetProductByIdAsync(variant.Id); *@
+
+                                    string strItemStyle = "";
+                                    if (!bIsFirstRecord)
+                                    {
+                                        strItemStyle = "display:none;";
+                                    }
+                                    <li>
+                                        <div class="product-variant-line flow" data-productid="@variant.Id" style="@strItemStyle">
+                                                <!--price & add to cart-->
+                                                @{
+                                                    var dataDictPrice = new ViewDataDictionary(this.ViewData);
+                                                    dataDictPrice.TemplateInfo.HtmlFieldPrefix = string.Format("price_{0}", variant.Id);
+                                                    @await Html.PartialAsync("_ProductPrice", variant.ProductPrice, dataDictPrice)
+                                                }
+                                                <!--delivery-->
+                                                @await Html.PartialAsync("_DeliveryInfo", Model)
+                                                @await Component.InvokeAsync("Widget", new { widgetZone = "product_series_number", additionalData = Model.Id })
+                                                @await Component.InvokeAsync("Widget", new { widgetZone = "graco_endurance_advantage", additionalData = Model.Id })
+                                                @await Component.InvokeAsync("Widget", new { widgetZone = "product_promos", additionalData = Model.Id })
+                                                <!--attributes-->
+                                                @{
+                                                    var dataDictAttributes = new ViewDataDictionary(ViewData);
+                                                    dataDictAttributes.TemplateInfo.HtmlFieldPrefix = $"attributes_{variant.Id}";
+                                                    @await Html.PartialAsync("_ProductAttributes", variant, dataDictAttributes)
+                                                }
+                                                <!--availability-->
+                                                @await Html.PartialAsync("_Availability", variant)
+                                                <div class="flex-group align-items-center">
+                                                    @if (!variant.DisplayDiscontinuedMessage)
+                                                    {
+                                                        <div class="py-2 mb-2 border-top">
+                                                            @* <span class="me-4 font-weight-light text-muted">Availability:</span> *@
+                                                            @await Html.PartialAsync("_AvailabilityStock", Model)
+                                                        </div>
+                                                    }
+                                                    <!--SKU, MAN, GTIN, vendor-->
+                                                    @await Html.PartialAsync("_SKU_Man_GTIN_Ven", variant)
+                                                </div>
+                                                @* Only show estimate shipping if not call to order *@
+                                                @if (!variant.AddToCart.DisableBuyButton)
+                                                {
+                                                    @await Html.PartialAsync("_ProductEstimateShipping", Model.ProductEstimateShipping)
+                                                }
+                                                    <!--sample download-->
+                                                    @await Html.PartialAsync("_DownloadSample", variant)
+                                                    <!--gift card-->
+                                                    @{
+                                                        var dataDictGiftCard = new ViewDataDictionary(this.ViewData);
+                                                        dataDictGiftCard.TemplateInfo.HtmlFieldPrefix = string.Format("giftcard_{0}", variant.Id);
+                                                        @await Html.PartialAsync("_GiftCardInfo", variant.GiftCard, dataDictGiftCard)
+                                                    }
+                                                    <!--rental info-->
+                                                    @{
+                                                        var dataDictRental = new ViewDataDictionary(this.ViewData);
+                                                        dataDictRental.TemplateInfo.HtmlFieldPrefix = string.Format("rental_{0}", variant.Id);
+                                                        @await Html.PartialAsync("_RentalInfo", variant, dataDictRental)
+                                                    }
+                                                    <!--price breaks-->
+                                                    @await Html.PartialAsync("_ProductTierPrices", variant.TierPrices)
+                                                    @{
+                                                        var dataDictAddToCart = new ViewDataDictionary(this.ViewData);
+                                                        dataDictAddToCart.TemplateInfo.HtmlFieldPrefix = string.Format("addtocart_{0}", variant.Id);
+                                                      
+                                                        @await Html.PartialAsync("_AddToCart", variant.AddToCart, dataDictAddToCart)
+                                                      
+                                                    }
+                                                    @await Html.PartialAsync("_Discontinued", Model)
+                                              
+                                                @if (!string.IsNullOrEmpty(Model.ShortDescription))
+                                                {
+                                                    <div>
+                                                        @Html.Raw(Model.ShortDescription)
+                                                    </div>
+                                                }
+                                                <div class="overview-buttons">
+                                                    @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.ProductDetailsInsideOverviewButtonsBefore, additionalData = Model })
+                                                    @* <div class="d-flex">
+                                                        @{
+                                                            var dataDictAddToWishlist = new ViewDataDictionary(ViewData);
+                                                            dataDictAddToWishlist.TemplateInfo.HtmlFieldPrefix = $"addtocart_{Model.Id}";
+                                                            @await Html.PartialAsync("_AddToWishlist", Model.AddToCart, dataDictAddToWishlist)
+                                                        }
+                                                        @await Html.PartialAsync("_CompareProductsButton", Model)
+                                                    </div> *@
+                                                    @await Html.PartialAsync("_ProductEmailAFriendButton", Model)
+                                                </div>
+                                                @await Html.PartialAsync("_ShareButton", Model)
+                                               @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.ProductDetailsOverviewBottom, additionalData = Model })
+                                        </div>
+                                    </li>
+                                    bIsFirstRecord = false;
+                                }
+                            </ul>
+                        }
+                    </div>
+                    <div class="full-description mb-4">
+                        @if (!string.IsNullOrEmpty(Model.FullDescription))
+                        {
+                            @Html.Raw(Model.FullDescription)
+                        }
+                    </div>
+					<div>
+						California Residents: <a class="font-weight-bold" tabindex="0" title="Prop 65 WARNINGS" href="https://www.p65warnings.ca.gov/"> Prop 65 WARNINGS </a>
+					</div>
+                    @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.ProductDetailsEssentialBottom, additionalData = Model })
+                </div>
+                
+                @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.ProductDetailsBeforeCollateral, additionalData = Model })
+                <div class="product-collateral container">
+                    @await Html.PartialAsync("_ProductSpecifications", Model.ProductSpecificationModel)
+                    @await Html.PartialAsync("_ProductTags", Model.ProductTags)
+                </div>
+                @*we do not display "also purchased" for grouped products
+                @await Component.InvokeAsync("ProductsAlsoPurchased", new { productId = Model.Id })*@
+                @await Component.InvokeAsync(typeof(RelatedProductsViewComponent), new { productId = Model.Id }) 
+            </div>
+        </form>
+        @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.ProductDetailsBottom, additionalData = Model })
+    </div>
+</div>
+
+<script type="text/javascript" asp-location="Footer">
+    var vLastSelectionIdx = null;
+
+    function ChangeVariantSelection()
+    {
+        var vVariantIdx = $("#product-variant-selector").val();
+
+        if(vVariantIdx == null || vVariantIdx == 'undefined')
+        {
+			//alert('Nothing selected');
+			return;
+		}
+
+		//alert(vVariantIdx);
+
+		$(".product-variant-line[data-productid != '" + vVariantIdx + "']").animate({opacity: 0}, 'slow', function(){
+            $(".product-variant-line[data-productid != '" + vVariantIdx + "']").css('visibility', 'collapse');
+            $(".product-variant-line[data-productid != '" + vVariantIdx + "']").css('display', 'none');
+
+            $(".product-variant-line[data-productid='" + vVariantIdx + "']").css('visibility', 'visible');
+            $(".product-variant-line[data-productid='" + vVariantIdx + "']").css('display', 'block');
+
+            $(".product-variant-line[data-productid='" + vVariantIdx + "']").animate({opacity: 1}, 'slow', function(){
+
+            });
+        });
+
+		vLastSelectionIdx = vVariantIdx;
+    }
+
+	function getQueryParam(param) {
+		location.search.substr(1)
+			.split("&")
+			.some(function(item) { // returns first occurence and stops
+				return item.split("=")[0] == param && (param = item.split("=")[1])
+			})
+		return param
+	}
+
+    $(document).ready(function() {
+        //$('#product-variant-selector').kendoComboBox();
+		var vUrlSelectedParam = getQueryParam("variantId");
+
+		if(vUrlSelectedParam != "variantId")
+		{
+			var vUrlIdx = parseInt(vUrlSelectedParam);
+
+			if(vUrlIdx != 'NaN')
+			{
+				$("#product-variant-selector").val(vUrlIdx);
+			}
+		}
+		else if(vLastSelectionIdx != null)
+		{
+			$("#product-variant-selector").val(vLastSelectionIdx);
+		}
+		else
+		{
+			@* $("#product-variant-selector").val($("#product-variant-selector option:first-child").val()); *@
+		}
+
+        ChangeVariantSelection();
+    });
+
+    $( ".product-variant-selector" ).change(function() {
+        ChangeVariantSelection();
+    });
+</script>

@@ -1,0 +1,24 @@
+@model TopMenuModel.CategoryLineModel
+
+    @if (Model.Category.SubCategories.Count > 0)
+    {
+        <div class="list-item">
+            <a href="@Url.RouteUrl("Category", new { SeName = Model.Category.SeName })"> 
+                @Model.Category.Name
+            </a>
+            @if (Model.Category.SubCategories.Count > 0)
+            {
+                <ul class="sublist">
+                    @foreach (var subCategory in Model.Category.SubCategories.Take(8))
+                    {
+                        var categoryLineModel = new CategoryNavigationModel.CategoryLineModel
+                        {
+                            //CurrentCategoryId = Model.CurrentCategoryId,
+                            Category = subCategory
+                        };
+                        @await Html.PartialAsync("_CategoryLine.HasSubMenu", categoryLineModel)
+                    }
+                </ul>
+            }
+        </div>
+    }
