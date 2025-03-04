@@ -5,6 +5,9 @@
 @using Nop.Core.Domain.Seo
 @using Nop.Services.Html
 
+@using Nop.Core.Infrastructure
+@using Nop.Services.Catalog
+
 @inject IHtmlFormatter htmlFormatter
 @inject IWebHelper webHelper
 @inject SeoSettings seoSettings
@@ -49,9 +52,13 @@
         NopHtml.AddHeadCustomParts("<meta property=\"twitter:image\" content=\"" + Model.DefaultPictureModel.ImageUrl + "\" />");
         NopHtml.AddHeadCustomParts("<meta property=\"twitter:url\" content=\"" + webHelper.GetThisPageUrl(false) + "\" />");
     }
-    
-    NopHtml.AddJsonLdParts(Model.JsonLd);
+    // Get non-discounted price
+    //var productPrice = Model.AssociatedProducts.Any()
+    //    ? Model.AssociatedProducts.Min(associatedProduct => associatedProduct.ProductPrice.PriceValue)
+    //    : Model.ProductPrice.PriceValue;
 
+    // remove '$' and ',' from Price
+    // var nonDiscountPrice = Math.Round(productPrice, 2);
     <script asp-location="Footer" src="https://www.paypal.com/sdk/js?client-id=AWFwV1HxLDta0Rdl1mkwnVvx5l73WTFyGGf-yTXND1GTeSGukBTFIPwVebKIQN8YX1I2tL2LvLBqARpQ&components=messages"></script>
 }
 <!--product breadcrumb-->
@@ -90,9 +97,11 @@
 
                             @await Html.PartialAsync("_ProductTierPrices", Model.TierPrices)
                         }
+                        
                         <!--availability-->
                         @await Html.PartialAsync("_Availability", Model)
                         <div class="flex-group align-items-center">
+                            <!--availability-->
                             @await Html.PartialAsync("_AvailabilityStock", Model)
                             <!--SKU, MAN, GTIN, vendor-->
                             @await Html.PartialAsync("_SKU_Man_GTIN_Ven", Model)
@@ -125,6 +134,7 @@
                             dataDictRental.TemplateInfo.HtmlFieldPrefix = $"rental_{Model.Id}";
                             @await Html.PartialAsync("_RentalInfo", Model, dataDictRental)
                         }
+
                         <!--price & add to cart & estimate shipping-->
                         @{
                             // if product is published
@@ -133,20 +143,23 @@
                                 dataDictAddToCart.TemplateInfo.HtmlFieldPrefix = $"addtocart_{Model.Id}";
                                 @await Html.PartialAsync("_AddToCart", Model.AddToCart, dataDictAddToCart)
                             }
+
                             if (!string.IsNullOrEmpty(Model.ShortDescription))
                             {
                                 <div class="short-description">
                                     @Html.Raw(Model.ShortDescription)
                                 </div>
                             }
+
                             @await Component.InvokeAsync("Widget", new { widgetZone = "product_series_number", additionalData = Model.Id })
                             @await Component.InvokeAsync("Widget", new { widgetZone = "graco_endurance_advantage", additionalData = Model.Id })
                             @await Component.InvokeAsync("Widget", new { widgetZone = "product_promos", additionalData = Model.Id })
+
                         }
                         <!--wishlist, compare, email a friend-->
                         <div class="overview-buttons">
                             @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.ProductDetailsInsideOverviewButtonsBefore, additionalData = Model })
-                            @{
+                                @{
                                 var dataDictAddToWishlist = new ViewDataDictionary(ViewData);
                                 dataDictAddToWishlist.TemplateInfo.HtmlFieldPrefix = $"addtocart_{Model.Id}";
                                 @await Html.PartialAsync("_AddToWishlist", Model.AddToCart, dataDictAddToWishlist)
@@ -160,24 +173,24 @@
                     </div>
                         @{
                             var customerIpAddress = webHelper.GetCurrentIpAddress();
-                            if (!customerIpAddress.Equals("50.45.236.2"))
+						if (!customerIpAddress.Equals("50.45.236.2"))
                             {
                                 <script asp-location="Head" type="text/javascript">
-                                    document.addEventListener("DOMContentLoaded", function() {
-                                        var div = document.querySelector(".AddProdInfo");
-                                        if (div) {
-                                            div.removeAttribute("style");
+                                document.addEventListener("DOMContentLoaded", function() {
+                                    var div = document.querySelector(".AddProdInfo");
+                                    if (div) {
+                                        div.removeAttribute("style");
 
-                                            // Get all nested unordered lists within .AddProdInfo and remove their styles
-                                            var uls = div.querySelectorAll("ul");
-                                            uls.forEach(function(ul) {
-                                                ul.removeAttribute("style");
-                                            });
+                                        // Get all nested unordered lists within .AddProdInfo and remove their styles
+                                        var uls = div.querySelectorAll("ul");
+                                        uls.forEach(function(ul) {
+                                            ul.removeAttribute("style");
+                                        });
 
-                                            div.classList.remove("AddProdInfo");
-                                            div.removeAttribute("title");
-                                        }
-                                    });
+                                        div.classList.remove("AddProdInfo");
+                                        div.removeAttribute("title");
+                                    }
+                                });
                                 </script>
                             }
                         }
@@ -187,7 +200,7 @@
                             @Html.Raw(Model.FullDescription)
                         </div>
                     }
-                    <div>
+					<div>
 						California Residents: <a class="font-weight-bold" tabindex="0" title="Prop 65 WARNINGS" href="https://www.p65warnings.ca.gov/"> Prop 65 WARNINGS </a>
 					</div>
                     @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.ProductDetailsEssentialBottom, additionalData = Model })

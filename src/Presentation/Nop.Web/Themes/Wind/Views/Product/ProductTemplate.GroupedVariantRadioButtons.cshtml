@@ -59,21 +59,21 @@
     bool bIsFirstRecord = true;
 
     // Get non-discounted price for addsearch
-    var productPrice = Model.AssociatedProducts.Any()
-        ? Model.AssociatedProducts.Min(associatedProduct => associatedProduct.ProductPrice.PriceValue)
-        : Model.ProductPrice.PriceValue;
+    // var productPrice = Model.AssociatedProducts.Any()
+    //     ? Model.AssociatedProducts.Min(associatedProduct => associatedProduct.ProductPrice.PriceValue)
+    //     : Model.ProductPrice.PriceValue;
 
     // remove '$' and ',' from Price
-    var nonDiscountPrice = Math.Round(productPrice, 2);
+    // var nonDiscountPrice = Math.Round(productPrice, 2);
 
     // Addsearch custom fields
-    NopHtml.AddHeadCustomParts("<meta name=\"addsearch-custom-field\" data-type=\"integer\" content=\"price=" + nonDiscountPrice + "\" />");
+    // NopHtml.AddHeadCustomParts("<meta name=\"addsearch-custom-field\" data-type=\"integer\" content=\"price=" + nonDiscountPrice + "\" />");
     
     // loop through manufacturer and add to meta
-    foreach (var manufacturer in Model.ProductManufacturers)
-    {
-        NopHtml.AddHeadCustomParts("<meta name=\"addsearch-custom-field\" content=\"manufacturer=" + manufacturer.Name + "\" />");
-    }
+    // foreach (var manufacturer in Model.ProductManufacturers)
+    // {
+    //     NopHtml.AddHeadCustomParts("<meta name=\"addsearch-custom-field\" content=\"manufacturer=" + manufacturer.Name + "\" />");
+    // }
     <script asp-location="Footer" src="https://www.paypal.com/sdk/js?client-id=AWFwV1HxLDta0Rdl1mkwnVvx5l73WTFyGGf-yTXND1GTeSGukBTFIPwVebKIQN8YX1I2tL2LvLBqARpQ&components=messages"></script>
 }
 <!--product breadcrumb-->

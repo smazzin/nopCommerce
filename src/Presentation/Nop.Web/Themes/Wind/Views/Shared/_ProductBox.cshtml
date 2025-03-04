@@ -28,7 +28,7 @@
     var addtocomparelink = Url.RouteUrl("AddProductToCompare", new { productId = Model.Id });
     // Does product have discount
     var pd = await EngineContext.Current.Resolve<IProductService>().GetProductByIdAsync(Model.Id);
-    var productdiscount = pd.HasDiscountsApplied;
+    var productdiscount = await EngineContext.Current.Resolve<IProductService>().GetAllDiscountsAppliedToProductAsync(Model.Id);
 }
 <div class="h-100 product-item" data-productid="@Model.Id">
     <div class="picture">
@@ -97,7 +97,7 @@
         }
         @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.ProductBoxAddinfoBefore, additionalData = Model })
         <div class="prices">
-            @if (productdiscount)
+            @if (productdiscount.Any())
             {
                 <text></text>
             }
@@ -105,7 +105,7 @@
             {
                 <s class="old-price">@Model.ProductPrice.OldPrice</s>
             }
-            @if (productdiscount)
+            @if (productdiscount.Any())
             {
                 <s class="price-in-cart h4 fw-bold">$@pd.Price.ToString("0,000.00", System.Globalization.CultureInfo.InvariantCulture)</s>
             }
@@ -136,7 +136,7 @@
         @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.ProductBoxAddinfoMiddle, additionalData = Model })
         @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.ProductBoxAddinfoAfter, additionalData = Model })
 
-        @if (productdiscount)
+        @if (productdiscount.Any())
         {
             <div class="lower-price-in-cart fw-bold">
                 <span>See Lower Price in Cart</span>

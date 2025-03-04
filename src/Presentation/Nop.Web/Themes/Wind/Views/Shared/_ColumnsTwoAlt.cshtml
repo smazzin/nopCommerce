@@ -1,7 +1,5 @@
 ﻿@{
     Layout = "_Root";
-	// Get Canonical Url
-	//var canonicalUrl = Url.ActionContext.HttpContext.Request.Path;
 }
 @{
     //current category ID
@@ -31,7 +29,7 @@
 
 <div class="two-columns padding-block-start-4">
     @await RenderSectionAsync("Breadcrumb", false)
-    @await Component.InvokeAsync(typeof(BreadcrumbViewComponent))
+    @* @await Component.InvokeAsync(typeof(BreadcrumbViewComponent)) *@
     <div class="side-2 order-first">
         @if (IsSectionDefined("left"))
         {
@@ -42,7 +40,7 @@
         else
         {
             @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.LeftSideColumnBefore })
-            @await Component.InvokeAsync(typeof(NavigationViewComponent))
+            @* @await Component.InvokeAsync(typeof(NavigationViewComponent)) *@
             @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.LeftSideColumnAfter })
         }
     </div>
