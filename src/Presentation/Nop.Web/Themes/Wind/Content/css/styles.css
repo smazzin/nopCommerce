@@ -2961,6 +2961,183 @@ textarea.form-control {
   border-color: var(--clr-neutral-100);
 }
 
+/* Styles for the jQuery UI AJAX cart dialog */
+/* Dialog container */
+.ui-dialog {
+  padding: 0;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  border: none !important;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+/* Dialog title bar */
+.ui-dialog .ui-dialog-titlebar {
+  background: #f8f9fa;
+  border: none;
+  border-bottom: 1px solid #e9ecef;
+  border-radius: 0;
+  padding: 15px;
+}
+
+/* Dialog title */
+.ui-dialog .ui-dialog-title {
+  font-size: 18px;
+  color: #333;
+  font-weight: bold;
+  width: 90%;
+}
+
+/* Close button */
+.ui-dialog .ui-dialog-titlebar-close {
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+}
+
+.ui-dialog .ui-dialog-titlebar-close .ui-icon {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/></svg>');
+  background-position: center;
+  width: 16px;
+  height: 16px;
+}
+
+/* Dialog content */
+.ui-dialog .ui-dialog-content {
+  padding: 20px;
+  overflow: visible;
+}
+
+/* Dialog overlay */
+.ui-widget-overlay {
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 1;
+}
+
+/* Product grid layout */
+#product-added-info .product-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+#product-added-info .picture-column {
+  flex: 0 0 auto;
+  width: 100px;
+}
+
+#product-added-info .details-column {
+  flex: 1 1 0;
+  min-width: 0; /* Prevents flex item from overflowing */
+}
+
+/* Product image */
+#product-added-info .product-picture {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid #ddd;
+  padding: 5px;
+}
+
+/* Product details */
+#product-added-info .product-name {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+#product-added-info .product-price,
+#product-added-info .product-quantity {
+  margin-bottom: 5px;
+  color: #666;
+}
+
+#product-added-info .product-attributes {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed #eee;
+  color: #777;
+  font-size: 0.9em;
+}
+
+/* Success message */
+#product-added-info .success-message {
+  text-align: center;
+  color: #4BB543;
+  font-size: 16px;
+  margin: 20px 0;
+}
+
+/* Dialog buttons container */
+.dialog-buttons {
+  display: grid;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+/* Button styles */
+.dialog-buttons button,
+.dialog-buttons a {
+  flex: 1 1 0;
+  min-width: 0;
+  text-align: center;
+  padding: 10px;
+  text-decoration: none;
+  border-radius: 3px;
+  font-weight: bold;
+  transition: all 0.2s ease;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.dialog-buttons .button-1 {
+  background-color: #f8f9fa;
+  color: #212529;
+  border: 1px solid #ddd;
+}
+
+.dialog-buttons .button-1:hover {
+  background-color: #e9ecef;
+}
+
+.dialog-buttons .button-2 {
+  background-color: #0d6efd;
+  color: white;
+  border: 1px solid #0d6efd;
+}
+
+.dialog-buttons .button-2:hover {
+  background-color: #0b5ed7;
+  border-color: #0a58ca;
+}
+
+/* Responsive styles */
+@media (max-width: 576px) {
+  .dialog-buttons {
+    flex-direction: column;
+  }
+  #product-added-info .product-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+  #product-added-info .picture-column {
+    width: auto;
+    max-width: 150px;
+    margin-bottom: 15px;
+  }
+  #product-added-info .details-column {
+    width: 100%;
+    text-align: center;
+  }
+}
 p iframe {
   max-width: 100%;
 }

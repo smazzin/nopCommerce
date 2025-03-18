@@ -8,6 +8,7 @@
 @inject IHtmlFormatter htmlFormatter
 @inject IWebHelper webHelper
 @inject SeoSettings seoSettings
+@inject Nop.Core.Domain.Orders.ShoppingCartSettings shoppingCartSettings
 
 @{
     Layout = "_ColumnsOne";
@@ -204,3 +205,8 @@
         @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.ProductDetailsBottom, additionalData = Model })
     </div>
 </div>
+<script asp-location="Footer">
+    $(document).ready(function () {
+        AjaxCart.init('@(shoppingCartSettings.DisplayCartAfterAddingProduct)', '.cart-qty', '.wishlist-qty', '#flyout-cart');
+    });
+</script>

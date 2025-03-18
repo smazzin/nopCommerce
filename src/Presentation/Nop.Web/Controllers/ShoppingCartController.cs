@@ -411,13 +411,47 @@ public partial class ShoppingCartController : BasePublicController
                     ? await RenderViewComponentToStringAsync(typeof(FlyoutShoppingCartViewComponent))
                     : string.Empty;
 
+                // Get the last added item to retrieve attributes and quantity
+                var lastAddedItem = shoppingCarts.OrderByDescending(sci => sci.Id).FirstOrDefault();
+                
+                // Get product picture
+                var picture = (await _productService.GetProductPicturesByProductIdAsync(product.Id)).OrderBy(x => x.DisplayOrder).FirstOrDefault();
+                string imageUrl = picture != null 
+                    ? await _pictureService.GetPictureUrlAsync(picture.PictureId, 250) 
+                    : await _pictureService.GetDefaultPictureUrlAsync(250);
+                
+                // Format price
+                var price = await _priceFormatter.FormatPriceAsync(product.Price);
+                
+                // Get attributes if any - using the correct method for nopCommerce 4.8
+                string attributes = string.Empty;
+                if (lastAddedItem != null)
+                {
+                    // Note: In nopCommerce 4.8, _productAttributeParser doesn't have FormatAttributesAsync
+                    // Instead, we need to use the _productAttributeParser.ParseProductAttributeValues and format manually
+                    // or we can simply display the name without attributes
+                    
+                    // For simplicity, we'll just show the product name without attributes
+                    // If you need to show attributes, you'll need to inject IProductAttributeFormatter
+                }
+                
+                // Get quantity
+                int quantity = lastAddedItem?.Quantity ?? 1;
+
                 return Json(new
                 {
                     success = true,
                     message = string.Format(await _localizationService.GetResourceAsync("Products.ProductHasBeenAddedToTheCart.Link"),
                         Url.RouteUrl("ShoppingCart")),
                     updatetopcartsectionhtml = updateTopCartSectionHtml,
-                    updateflyoutcartsectionhtml = updateFlyoutCartSectionHtml
+                    updateflyoutcartsectionhtml = updateFlyoutCartSectionHtml,
+                    productInfo = new {
+                        name = product.Name,
+                        price = price,
+                        picture = imageUrl,
+                        quantity = quantity,
+                        attributes = attributes
+                    }
                 });
             }
         }
