@@ -64,13 +64,17 @@ namespace PortlandCompressor.Plugin.Widgets.GA4.Components
                 await _logger.ErrorAsync("Widgets.GA4: Google tag not defined, add in Settings.");
                 return Content(string.Empty);
             }
-
-            if (widgetZone == PublicWidgetZones.ProductBoxAddinfoAfter ||
-                widgetZone == PublicWidgetZones.ProductDetailsAddInfo)
+            // not showing add to cart button in product box
+            // if (widgetZone == PublicWidgetZones.ProductBoxAddinfoAfter ||
+            //     widgetZone == PublicWidgetZones.ProductDetailsAddInfo)
+            // {
+            if (widgetZone == PublicWidgetZones.ProductDetailsAddInfo)
             {
-                var productId = widgetZone == PublicWidgetZones.ProductBoxAddinfoAfter ?
-                    (additionalData as ProductOverviewModel).Id :
-                    Convert.ToInt32(Url.ActionContext.RouteData.Values["productId"]);
+                // not showing add to cart button in product box
+                // var productId = widgetZone == PublicWidgetZones.ProductBoxAddinfoAfter ?
+                //     (additionalData as ProductOverviewModel).Id :
+                //     Convert.ToInt32(Url.ActionContext.RouteData.Values["productId"]);
+                var productId = Convert.ToInt32(Url.ActionContext.RouteData.Values["productId"]);
                 var product = await _productService.GetProductByIdAsync(productId);
                 var productManufacturer = (await _manufacturerService.GetProductManufacturersByProductIdAsync(productId)).FirstOrDefault();
                 var manufacturer = await _manufacturerService.GetManufacturerByIdAsync(productManufacturer?.ManufacturerId ?? 0);
@@ -79,9 +83,11 @@ namespace PortlandCompressor.Plugin.Widgets.GA4.Components
                 var addToCartModel = new AddToCartModel()
                 {
                     Id = productId,
-                    ButtonId = widgetZone == PublicWidgetZones.ProductBoxAddinfoAfter ?
-                        $"product-box-add-to-cart-button-{productId}" :
-                        $"add-to-cart-button-{productId}",
+                    // not showing add to cart button in product box
+                    // ButtonId = widgetZone == PublicWidgetZones.ProductBoxAddinfoAfter ?
+                    //     $"product-box-add-to-cart-button-{productId}" :
+                    //     $"add-to-cart-button-{productId}",
+                    ButtonId = $"add-to-cart-button-{productId}",
                     Item = new GA4OrderItem()
                     {
                         Sku = product.Sku,

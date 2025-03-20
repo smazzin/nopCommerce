@@ -30,8 +30,9 @@ namespace PortlandCompressor.Plugin.Widgets.GA4
             return Task.FromResult<IList<string>>(new List<string>
             {
                 PublicWidgetZones.HeadHtmlTag,
-                PublicWidgetZones.ProductDetailsAddInfo,
-                PublicWidgetZones.ProductBoxAddinfoAfter
+                PublicWidgetZones.ProductDetailsAddInfo
+                // not showing add to cart button in product box
+                // PublicWidgetZones.ProductBoxAddinfoAfter
             });
         }
 
