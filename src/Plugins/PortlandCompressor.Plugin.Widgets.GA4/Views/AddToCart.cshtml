@@ -1,41 +1,71 @@
 @model PortlandCompressor.Plugin.Widgets.GA4.Models.AddToCartModel
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-	var buttonId = "@Model.ButtonId";
-	var button = document.getElementById(buttonId);
-	if (button === null) {
-		console.error("Button with ID '" + buttonId + "' not found.");
-		return;
-	}
-	
-	button.addEventListener("click", function (event) {
-		if (event.target.id === buttonId) { 
+	// Wait for DOM to be fully loaded
+	document.addEventListener('DOMContentLoaded', function () {
+		// console.log("GA4 AddToCart script loaded, looking for button: " + "@Model.ButtonId");
+
+		function handleClick(event) {
 			// Ensure dataLayer exists
 			window.dataLayer = window.dataLayer || [];
 
 			// Clear the previous ecommerce object
 			dataLayer.push({ ecommerce: null });
 
-			// Push the new ecommerce object
-			dataLayer.push({
+			// Find the quantity input
+			var quantityInput = document.querySelector('input[name="addtocart_@Model.Id+EnteredQuantity"]');
+			var quantity = 1; // Default to 1
+
+			// If we can't find the specific input field, look for any quantity input near the add-to-cart button
+			if (!quantityInput) {
+				// Try to find the quantity input using common class names or patterns
+				quantityInput = document.querySelector('.qty-input');
+			}
+
+			// If we found a quantity input, get its value
+			if (quantityInput && quantityInput.value) {
+				quantity = parseInt(quantityInput.value, 10) || 1; // Parse as integer, default to 1 if NaN
+				// console.log("Detected quantity: " + quantity);
+			} else {
+				// console.log("Quantity input not found, using default: 1");
+			}
+
+			// Build the data object with the dynamic quantity
+			var ga4Data = {
 				event: "add_to_cart",
 				ecommerce: {
 					currency: "USD",
-					// Make value be quantity * price
-					value: @Model.Item.Price * @Model.Item.Quantity,
+					value: @Model.Item.Price * quantity,
 					items: [{
-						item_id: "@Model.Item.Sku", // Ensure strings are correctly quoted
+						item_id: "@Model.Item.Sku",
 						item_name: "@Model.Item.Name",
 						index: 0,
 						item_brand: "@Model.Item.Brand",
 						item_category: "@Model.Item.Category",
-						price: @Model.Item.Price, // Make sure this is rendered as a number or string
-						quantity: @Model.Item.Quantity // Ensure this is rendered as a number
+						price: @Model.Item.Price,
+						quantity: quantity
 					}]
 				}
-			});
+			};
+
+			// Push to dataLayer
+			dataLayer.push(ga4Data);
+			// console.log("GA4 add_to_cart event pushed to dataLayer with quantity: " + quantity);
 		}
+
+		// Add a global event listener
+		document.addEventListener('click', function(event) {
+			var buttonId = "@Model.ButtonId";
+			// Check if the clicked element or any of its parents is our target button
+			var targetElement = event.target;
+			while (targetElement != null) {
+				if (targetElement.id === buttonId) {
+					// console.log("Button clicked via global listener");
+					handleClick(event);
+					break;
+				}
+				targetElement = targetElement.parentElement;
+			}
+		});
 	});
-});
 </script>
