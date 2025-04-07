@@ -39,10 +39,15 @@ public partial class Program
         //add services to the application and configure service provider
         builder.Services.ConfigureApplicationServices(builder);
 
+        builder.Services.AddRazorPages(options =>
+        {
+            options.Conventions.AddPageRoute("/Test", "/test");
+        });
+        
         var app = builder.Build();
-
         //configure the application HTTP request pipeline
         app.ConfigureRequestPipeline();
+        app.MapRazorPages();
         await app.StartEngineAsync();
 
         await app.RunAsync();
