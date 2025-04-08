@@ -34,10 +34,10 @@ public partial class GenericUrlRouteProvider : BaseRouteProvider, IRouteProvider
             return;
 
         //generic routes (actually routing is processed later in SlugRouteTransformer)
-        var genericCatalogPattern = $"{lang}/{{{NopRoutingDefaults.RouteValue.CatalogSeName}}}/{{{NopRoutingDefaults.RouteValue.SeName}}}";
+        var genericCatalogPattern = $"{lang}/store/{{{NopRoutingDefaults.RouteValue.CatalogSeName}}}/{{{NopRoutingDefaults.RouteValue.SeName}}}";
         endpointRouteBuilder.MapDynamicControllerRoute<SlugRouteTransformer>(genericCatalogPattern);
 
-        var genericPattern = $"{lang}/{{{NopRoutingDefaults.RouteValue.SeName}}}";
+        var genericPattern = $"{lang}/store/{{{NopRoutingDefaults.RouteValue.SeName}}}";
         endpointRouteBuilder.MapDynamicControllerRoute<SlugRouteTransformer>(genericPattern);
 
         //routes for not found slugs

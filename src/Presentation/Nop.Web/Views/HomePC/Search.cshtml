@@ -1,0 +1,347 @@
+﻿@{
+	NopHtml.AddTitleParts("Search Portland Compressor");
+	NopHtml.AddMetaDescriptionParts("Search Portland Compressor for airless sprayer, air compressor, equipment parts and accessories, information and more.");
+	NopHtml.AddMetaKeywordParts("airless, paint, sprayers, info, information, Graco, tips, parts, accessories, cleaning, maintenance, storing, how-to");
+  NopHtml.AppendScriptParts(ResourceLocation.Head, "https://cdn.jsdelivr.net/npm/addsearch-js-client@0.8/dist/addsearch-js-client.min.js");
+	NopHtml.AppendScriptParts(ResourceLocation.Head, "https://cdn.jsdelivr.net/npm/addsearch-search-ui@0.7/dist/addsearch-search-ui.min.js");
+	//NopHtml.AppendCssFileParts("https://cdn.jsdelivr.net/npm/addsearch-search-ui@0.7/dist/addsearch-search-ui.min.css");
+}
+
+
+<div class="row">
+    <div class="col-sm-12 mb-3">
+        <h1>Search Portland Compressor</h1>
+        <div class="input-group" id="searchfield-container">
+          <input class="form-control" type="text" placeholder="Search...">
+          <button class="btn btn-success">Search</button>
+      </div>
+      <div id="autocomplete-container"></div>
+    </div>
+
+    <aside class="col-sm-3">
+      <div class="mb-3">
+        <span class="fw-bold d-flex align-items-center ms-auto">
+          Filtered by
+        </span>
+        <div id="active-filters-container"></div>
+      </div>
+
+      <div class="mb-3">
+        <span class="fw-bold d-flex align-items-center ms-auto">
+          Filter by
+        </span>
+        <div id="radio-filters-container"></div>
+      </div>
+
+      <div class="mb-3">
+        <div id="range-filters-container"></div>
+      </div>
+      
+      @* <div class="mb-3">
+        <span class="fw-bold d-flex align-items-center ms-auto">
+          Page
+        </span>
+        <div id="category-checkbox-container"></div>
+      </div> *@
+
+      <div class="mb-3">
+        <span class="fw-bold d-flex align-items-center ms-auto">
+          Availability
+        </span>
+        <div id="availability-checkbox-container"></div>
+      </div>
+
+      <div class="mb-3">
+        <span class="fw-bold d-flex align-items-center ms-auto">
+          Categories
+        </span>
+        <div id="breadcrumbs-checkbox-container"></div>
+      </div>  
+
+      <div class="mb-3">
+        <span class="fw-bold d-flex align-items-center ms-auto">
+          Brand
+        </span>
+        <div id="manufacturer-checkbox-container"></div>
+      </div>          
+    </aside>
+
+    <div class="col-sm-9">
+      <div class="row">
+        <div class="col-sm-8 mb-3" id="tabs">
+          <div id="tabs-container"></div>
+        </div>
+
+        <div class="col mb-3" id="sort">
+          <span class="fw-bold d-flex align-items-center ms-auto">
+            Sort by
+          </span>
+          <div id="sortby-container"></div>
+        </div>
+      </div>
+      
+      <div class="col-sm-12 mb-3" id="results">
+        <span class="h4 d-flex align-items-center ms-auto">
+          Search results
+        </span>
+        <div class="row" id="results-container"></div>
+      </div>
+
+      <div id="pagination-container"></div>
+    </div>
+</div>
+
+<script id="search-results-template" type="text/x-handlebars-template">
+  <div class="addsearch-searchresults">
+    {{#if resultcount}}
+      {{> numberOfResultsTemplate }}
+    {{/if}}
+      <div class="item-grid g-4 mt-2">
+      {{#each hits}}
+        <div class="item-box mb-4">
+          <div class="h-100 product-item">
+            <div class="picture">
+              <img class="img-fluid" src="{{ images.main }}">
+            </div>
+            <div class="details">
+              <h6 class="product-title">
+                <a class="stretched-link" href="{{url}}">{{title}}</a><br>
+              </h6>
+            </div>
+            <div class="add-info">
+              <div class="prices">
+              {{#if custom_fields.price}}
+                {{formatPrice custom_fields.price "en-US" "USD"}}<br />
+              {{/if}}
+              </div>
+            </div>
+          </div>
+        </div>
+      {{/each}}
+      </div>
+  </div>
+</script>
+
+<script asp-location="Footer">
+  // AddSearch JS client
+  var client = new AddSearchClient('5330551b441ca037e2de994c7d073d83');
+
+  client.addStatsField('custom_fields.price');
+  client.addFacetField('custom_fields.manufacturer');
+  client.addFacetField('custom_fields.breadcrumbs');
+  client.addFacetField('custom_fields.availability');
+  client.setThrottleTime(700);
+
+  @* client.addFacetField('category'); *@
+
+  var conf = {
+    matchAllQuery: false,
+    updateBrowserHistory: false,
+  };
+
+  var searchui = new AddSearchUI(client, conf);
+
+  // UI components
+  searchui.searchField({
+    containerId: 'searchfield-container',
+    selectorToBind: '#searchfield-container input',
+    buttonSelector: '#searchfield-container button',
+    autofocus: false
+  });
+
+  var autocompleteClient = new AddSearchClient('5330551b441ca037e2de994c7d073d83');
+  autocompleteClient.setPaging(1, 3, 'relevance', 'desc'); // Fetch 3 results by default
+  autocompleteClient.setThrottleTime(500);
+
+  var autocompleteTemplate =
+    '   <div class="addsearch-autocomplete">' +
+    '     <div class="">' +
+    '       <ul class="suggestions list-unstyled">' +
+    '         {{#each suggestions}}' +
+    '           <li data-keyword="{{value}}" data-index="{{@@index}}" {{#equals ../activeSuggestionIndex @@index}}class="active"{{/equals}}>' +
+    '             {{value}}' +
+    '           </li>' +
+    '         {{/each}}' +
+    '       </ul>' +
+    '       <ul class="results list-unstyled">' +
+    '         {{#each searchResults.results}}' +
+    '           <li class="d-flex align-items-center">' +
+    '           <img width="65" height="65" class="img-fluid" src="{{ images.main }}">' +
+    '             <a class="text-truncate" href="{{url}}">{{title}}</a><br>' +
+    @* '             <span>{{formatPrice custom_fields.price "en-US" "USD"}}</span>' + *@
+    '           </li>' +
+    '         {{/each}}' +
+    '       </ul>' +
+    '     </div>' +
+    '  </div>'; 
+
+  searchui.autocomplete({
+    containerId: 'autocomplete-container',
+    template: autocompleteTemplate,
+    sources: [
+      {
+        type: AddSearchUI.AUTOCOMPLETE_TYPE.SUGGESTIONS,
+        client: client,
+        jsonKey: 'suggestions'
+      },
+      {
+        type: AddSearchUI.AUTOCOMPLETE_TYPE.SEARCH,
+        client: autocompleteClient,
+        jsonKey: 'results',
+        collectSearchAnalytics: true
+      }
+    ]
+  });
+  
+  searchui.searchResults({
+    containerId: 'results-container',
+    template: document.querySelector('#search-results-template').innerHTML
+  });
+
+    searchui.activeFilters({
+    containerId: 'active-filters-container'
+  });
+
+  searchui.sortBy({
+    containerId: 'sortby-container',
+    options: [
+      {
+        label: 'Most relevant first',
+        sortBy: 'relevance',
+        order: 'desc'
+      },
+      {
+        label: 'Date: Newest first',
+        sortBy: 'date',
+        order: 'desc'
+      },
+      {
+        label: 'Date: Oldest first',
+        sortBy: 'date',
+        order: 'asc'
+      }
+    ]
+  });  
+
+  searchui.filters({
+    containerId: 'range-filters-container',
+    type: AddSearchUI.FILTER_TYPE.RANGE,
+    label: 'Price range',
+    labelShort: 'Price',
+    field: 'custom_fields.price',
+    validator: '^[\\d]*$',
+    sticky: true
+  }); 
+
+  searchui.filters({
+    containerId: 'radio-filters-container',
+    type: AddSearchUI.FILTER_TYPE.RADIO_GROUP,
+    options: {
+      nofilter: {
+        label: 'All results'
+      },
+      product: {
+        label: 'Products',
+        filter: {"category": "1xstore"}
+      },
+      resource: {
+        label: 'Info & Reference',
+        filter: {"not": {"category": "1xstore"}}
+      }
+    }
+  });
+
+  searchui.filters({
+    containerId: 'tabs-container',
+    type: AddSearchUI.FILTER_TYPE.TABS,
+    clearOtherFilters: true,
+    setSorting: {
+      field: 'relevance',
+      order: 'desc'
+    },
+    options: {
+      nofilter: {
+        label: 'All results'
+      },
+      product: {
+        label: 'Products',
+        filter: {"category": "1xstore"}
+      },
+      resource: {
+        label: 'Info & Reference',
+        filter: {"not": {"Category": "1xstore"}}
+      }
+    }
+  });     
+
+  searchui.pagination({
+    containerId: 'pagination-container'
+  });
+
+  @* // Page category facets
+  // Custom filter to return categories with 1x or 2x prefix
+  function facetsFilter(facets) {
+    var filtered = [];
+    for (var i=0; i<facets.length; i++) {
+      if (facets[i].value.match(/^[1-2]{1}[x]{1}/)) {
+        filtered.push(facets[i]);
+      }
+    }
+    return filtered;
+  }
+
+  // Snip 1x or 2x prefix from facets
+  searchui.registerHandlebarsHelper('snipFacet', function(facet) {
+    return facet.substring(2);
+  });
+
+  // Custom template to hide the 1x or 2x prefix
+  var facetsTemplate =
+    '<div class="addsearch-facets">  '  +
+    '  <ul>  '  +
+    '    {{#each facets}}  '  +
+    '      <li data-facet="{{value}}">  '  +
+    '        <label>  '  +
+    '          <input type="checkbox" value="{{value}}" />'  +
+    '          <span>{{snipFacet value}}</span> <em>({{count}})</em>  '  +
+    '        </label>  '  +
+    '      </li>  '  +
+    '    {{/each}}  '  +
+    '  </ul>  '  +
+    '</div>  ' ;
+
+  searchui.facets({
+    containerId: 'category-checkbox-container',
+    field: 'category',
+    template: facetsTemplate,
+    filter: facetsFilter,
+    sticky: false
+  }); *@
+
+  // Availability facets
+  searchui.facets({
+    containerId: 'availability-checkbox-container',
+    type: AddSearchUI.FILTER_TYPE.CHECKBOX_GROUP,
+    field: 'custom_fields.availability',
+    sticky: false
+  });
+
+  // Product category facets
+  searchui.facets({
+    containerId: 'breadcrumbs-checkbox-container',
+    type: AddSearchUI.FILTER_TYPE.CHECKBOX_GROUP,
+    field: 'custom_fields.breadcrumbs',
+    sticky: false
+  }); 
+  
+  // Product manufacturer facets
+  searchui.facets({
+    containerId: 'manufacturer-checkbox-container',
+    type: AddSearchUI.FILTER_TYPE.CHECKBOX_GROUP,
+    field: 'custom_fields.manufacturer',
+    sticky: false
+  });
+
+  // Start after all components are added
+  searchui.start();
+</script>

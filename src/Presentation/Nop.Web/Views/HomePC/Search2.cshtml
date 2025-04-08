@@ -1,0 +1,106 @@
+﻿
+@{
+
+	NopHtml.AddTitleParts("Search Portland Compressor");
+	NopHtml.AddMetaDescriptionParts("Search Portland Compressor for airless sprayer, air compressor, equipment parts and accessories, information and more.");
+	NopHtml.AddMetaKeywordParts("airless, paint, sprayers, info, information, Graco, tips, parts, accessories, cleaning, maintenance, storing, how-to");
+
+
+	// Addsearch
+	//Html.AppendScriptParts(ResourceLocation.Footer, "https://addsearch.com/js/?key=5330551b441ca037e2de994c7d073d83&type=resultspage");
+
+}
+
+
+<div class="col-lg-12">
+	<div class="page search">
+		<div class="page-title">
+			<h1>Search</h1>
+		</div>
+	</div>
+</div>
+<div class="col-sm-3">
+	<div class="custom-control custom-checkbox">
+
+		<label class="custom-control-label">
+			Test
+
+		</label>
+		<input type="checkbox" onchange="addsearch.addsearch-custom-field('Manufacturer', 'Graco')" />
+	</div>
+</div>
+
+<div class="col-sm-9 mx-auto">
+	<div class="input-group">
+		<input type="text" class="form-control ui-autocomplete-input addsearch" id="addsearch" placeholder="Search.." />
+		<span class="input-group-btn">
+			<button class="btn btn-secondary">Search</button>
+		</span>
+	</div>
+	<hr />
+	<div id="addsearch-results"></div>
+</div>
+
+<div class="row" id="result">
+	<!--search results-->
+</div>
+
+
+<script>
+	window.addsearch_settings = {
+		display_url: true,
+		display_resultscount: true,
+		display_date: false,
+		display_sortby: true,
+		display_category: true
+	}
+</script>
+
+<script type="text/javascript" asp-location="Footer">
+	$(document).ready(function () {
+		var search_input = $('#addsearch').val();
+		var keyword = encodeURIComponent(search_input);
+
+
+		// Search API
+		var search_url = 'https://api.addsearch.com/v1/search/5330551b441ca037e2de994c7d073d83';
+
+		var term = 'https://api.addsearch.com/v1/suggest/5330551b441ca037e2de994c7d073d83?term=';
+
+		$('button').on('click', function () {
+			var search_input = $('#addsearch').val();
+			var keyword = search_input;
+			$.ajax({
+				type: "GET",
+				url: search_url,
+				data: { term: keyword },
+				dataType: "json",
+				success: function (data) {
+					$("#result").html('');
+					if (data.total_hits) {
+						$.each(data.hits, function (i, data) {
+							var title = data.title;
+							var dis = data.highlight;
+							var url = data.url;
+							var image = data.images.main;
+							var category = data.category;
+
+							var suggestion = term;
+
+
+							var final = "<div class='col-md-9 mx-auto'><div class='card mb-3'><div class='row no-gutters'><div class='col-md-3'><a href='" + url + "'><img class='grid-item-image img-fluid'src='" + image + "' /></a></div><div class='col-md-9'><div class='card-body'><h4 class='card-title'><a href='" + url + "'>" + title + "</a></h4></div></div></div></div></div><div class=''>" + category + "</div>" + suggestion;
+
+							$("#result").append(final); // Result
+
+						});
+					} else {
+						$("#result").html("<div class='col-sm-12'><div class='alert alert-warning' id='no'><p class='lead mb-0'>Your search did not result in any matches.</p></div></div>");
+					}
+				}
+			});
+		});
+	});
+</script>
+
+
+

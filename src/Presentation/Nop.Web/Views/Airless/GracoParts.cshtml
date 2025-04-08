@@ -1,0 +1,773 @@
+﻿@model ProductDetailsModel
+@using Nop.Core.Domain.Seo;
+@using Nop.Core.Infrastructure;
+@using Nop.Services.Catalog;
+@inject Nop.Core.IWebHelper webHelper 
+@inject SeoSettings seoSettings
+@{
+    NopHtml.AddTitleParts("Airless Paint Sprayer Parts - Current Graco Electric Sprayers");
+    NopHtml.AddMetaDescriptionParts("Graco electric airless paint sprayer parts for the 390, Ultra 395, Ultra Max II 490, 495, 595, 695, 795, 1095, and the 1595.");
+    NopHtml.AddMetaKeywordParts("airless paint sprayer parts filter packings rod cylinder pump strainer 390 Ultra 395 Ultra Max II 490 695 795 1095 1595");
+    //Get list of product id's
+    //string [] productSku = {"17C314", "17C317"};
+    //var GetProducts = EngineContext.Current.Resolve<IProductService>().GetProductsBySku(productSku);
+    //var GetSpecs = EngineContext.Current.Resolve<ISpecificationAttributeService>().GetProductSpecificationAttributes(5968, 0);
+}
+
+<h1>Graco Electric Airless Sprayer Parts - Current Models</h1>
+<div class="row">
+    <div class="col-md-4">
+        <aside class="card">
+            <span class="h4">Also see</span>
+            <ul class="list-unstyled">
+                <li><a class="text-decoration-none" href="@Url.Action("Graco_Series_Sprayers", "airless")">Graco Series Sprayers</a></li>
+                <li><a class="text-decoration-none" href="@Url.Action("MagnumParts", "airless")">Graco Magnum Parts</a></li>
+                <li><a class="text-decoration-none" href="@Url.Action("GracoHvlpPartsAccessories", "HVLP")">HVLP Parts &amp; Accessories</a></li>
+                <li><a class="text-decoration-none" href="@Url.Action("GracoFinishProPartsAccessories", "airless")">FinishPro Parts &amp; Accessories</a></li>
+                <li><a class="text-decoration-none" href="@Url.Action("GracoTexsprayParts", "TextureSprayers")">TexSpray Sprayer Parts</a></li>
+                <li><a class="text-decoration-none" href="@Url.Action("LineLazer_parts", "stripers")">LineLazer Parts</a></li>
+                <li><a class="text-decoration-none" href="@Url.Action("Accessories", "airless")">Graco Accessories</a></li>
+            </ul>
+        </aside>
+        
+    </div>
+    <div class="col-md-8 order-first">
+        <p> Here are some common Graco airless paint sprayer parts also known as &quot;wear parts&quot;. If you don&#39;t see the part you are looking for here you can also search our <a href="~/store/airless-paint-sprayer-parts">airless sprayer store</a> or call us and talk to one of our experienced representatives. Graco has been good about carrying parts for their sprayers many years after they are discontinued. </p>
+        <p class="font-weight-bold">Don't see your model? Check our &quot;prior model&quot; pages:</p>
+        <ul>
+            <li><a href="@Url.Action("GracoSprayerPartsElectricPrior", "airless")">Older Model Electric Sprayer Parts</a></li>
+            <li><a href="@Url.Action("GracoSprayerPartsGasPrior", "airless")">Older Model Gas Sprayer Parts</a></li>
+        </ul>
+        <p class="font-weight-bold">Looking for current gas sprayer parts?</p>
+        <ul>
+            <li><a href="@Url.Action("GracoPartsGas", "airless")">Current Model Gas Sprayer parts</a></li>
+        </ul>
+    </div>
+
+    <div class="col-sm-12">
+        <h2>Electric Powered Airless Sprayers</h2>
+    </div>
+     @* @foreach (var p in GetProducts)
+    {
+        <div class="col-sm-12 mb-4">
+            <table class="table text-center table-sm table-bordered table-hover">
+                <tbody>
+                    <tr>
+                        <th class="align-middle text-center bg-white w-25" rowspan="8" scope="rowgroup">
+                            @p.Name 
+                            <br><hr>@p.Sku
+                        </th>
+                        <th class="w-25" scope="row">Inlet Strainer</th>
+                        <td class="w-25">246385, 235004</td>
+                    </tr>
+                    <tr>
+                        <th class="w-25" scope="row">Packing Kit</th>
+                        <td class="w-25">244194</td>
+                    </tr>
+                    <tr>
+                        <th class="w-25" scope="row">Rod</th>
+                        <td class="w-25">24W617</td>
+                    </tr>
+                    <tr>
+                        <th class="w-25" scope="row">Cylinder</th>
+                        <td class="w-25">24W619</td>
+                    </tr>
+                    <tr>
+                        <th class="w-25" scope="row">Cylinder Sleeve</th>
+                        <td class="w-25">24W619</td>
+                    </tr>
+                    <tr>
+                        <th class="w-25" scope="row">Pump (Complete)</th>
+                        <td class="w-25">24W619</td>
+                    </tr>
+                    <tr>
+                        <th class="w-25" scope="row">Pump Manual</th>
+                        <td class="w-25">24W619</td>
+                    </tr>
+                    <tr>
+                        <th class="w-25" scope="row">Manual</th>
+                        <td class="w-25">24W619</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    } *@
+ 
+    <div class="col-sm-12 my-4">
+        <table class="compare-flex">
+            <thead>
+                <tr>
+                    <td class="hidden-xs hidden-md hidden-sm"></td>
+                    <th scope="col">Graco 390</th>
+                    <th scope="col">Graco Ultra 395 PC</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td>
+                        <a href="~/store/graco-390-pc-airless-paint-sprayer">
+                            <img class="img-fluid" alt="Graco 390 airless paint sprayer" src="~/images/thumbs/000/0008460_graco-390-pc-airless-paint-sprayer_550.jpeg" height="150" width="150">
+                        </a>
+                    </td>
+                    <td>
+                        <a href="~/store/graco-ultra-395-pc-airless-paint-sprayer-stand">
+                            <img class="img-fluid" alt="Graco Ultra 395 PC airless sprayer" src="~/images/thumbs/000/0007148_graco-ultra-395-pc-airless-paint-sprayer-stand_550.jpeg" height="150" width="150">
+                        </a>
+                    </td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <th scope="row" colspan="3">Models</th>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-right">Models</th>
+                    <td>
+                        <a class="badge" href="~/store/graco-390-pc-airless-paint-sprayer">17C310 <i class="fa fa-external-link" aria-hidden="true"></i></a>
+                        <a class="badge" href="~/store/graco-390-pc-airless-paint-sprayer-hi-boy">17C313 <i class="fa fa-external-link" aria-hidden="true"></i></a>
+                    </td>
+                    <td>
+                        <a title="Ultra 395 PC Airless Paint Sprayer, Stand" class="badge" href="~/store/graco-ultra-395-pc-airless-paint-sprayer-stand">17E844 <i class="fa fa-external-link" aria-hidden="true"></i></a>
+
+                        <a title="Ultra 395 PC Hi-Boy Model" class="badge" href="~/store/graco-ultra-395-pc-electric-airless-paint-sprayer-hi-boy">17E846 <i class="fa fa-external-link" aria-hidden="true"></i></a>
+                        <a title="Ultra 395 PC Lo-Boy Model" class="badge" href="~/store/graco-ultra-395-pc-electric-airless-paint-sprayer-lo-boy">17E845 <i class="fa fa-external-link" aria-hidden="true"></i></a>
+                    </td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="2">Inlet Strainer</th>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-right">Inlet Strainer</th>
+                    <td colspan="2">
+                        <a href="~/store/inlet-screen-rock-guard-ultra-395495">246385</a>
+                        <br />
+                        <a href="~/store/graco-inlet-screen-rock-guard-235004">235004</a>
+                    </td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="2">Packing Kit</th>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-right">Packing Kit</th>
+                    <td colspan="2">
+                        <a href="~/store/graco-packing-kit-for-stx-390-ultra-395-495-595">18B260</a>
+                    </td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="2">Rod</th>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-right">Rod</th>
+                    <td colspan="2"><a href="/store/graco-24w617-piston-rod-replacement">24W617</a></td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="2">Cylinder</th>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-right">Cylinder</th>
+                    <td colspan="2"><a href="~/store/graco-24w619-pump-cylinder-replacement">24W619</a></td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="2">Cylinder Sleeve</th>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-right">Cylinder Sleeve</th>
+                    <td colspan="2">N/A</td>
+                </tr>
+
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="2">Pump <small>(Complete)</small></th>
+                </tr>
+                <tr>
+                    <th class="text-right">Pump <small>(Complete)</small></th>
+                    <td colspan="2">
+                        <a href="~/store/graco-proconnect-endurance-pump-lower-kit-390-pc-595-pc-pro">17C487</a>
+                    </td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="2">Pump Manual</th>
+                </tr>
+                <tr>
+                    <th class="text-right">Pump Manual</th>
+                    <td colspan="2">334599</td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="2">Manual</th>
+                </tr>
+                <tr>
+                    <th class="text-right">Manual</th>
+                    <td>334567</td>
+                    <td>334466</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-sm-12 my-4">
+        <table class="compare-flex">
+            <thead>
+                <tr>
+                    <td></td>
+                    <th scope="col">Ultra Max II 490 PC Pro</th>
+                    <th scope="col">Ultra Max II 495 PC Pro</th>
+                    <th scope="col">Ultra Max II 595</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td>
+                        <img class="img-fluid" alt="Graco Ultra Max II 490 PC Pro airless paint sprayer" src="~/images/thumbs/000/0007152_graco-ultra-max-ii-490-pc-pro-electric-airless-paint-sprayer-stand_550.jpeg" height="150" width="150">
+                    </td>
+                    <td>
+                        <img class="img-fluid" alt="Graco Ultra Max II 490 PC Pro airless paint sprayer" src="~/images/thumbs/000/0003548_graco-ultra-max-ii-495-pc-pro-electric-airless-paint-sprayer-stand_415.jpeg" height="150" width="150">
+                    </td>
+                    <td>
+                        <img class="img-fluid" alt="Graco Ultra MAX II 595 PC Pro Hi-Boy" src="~/images/thumbs/000/0003552_graco-ultra-max-ii-595-pc-pro-electric-airless-paint-sprayer-hi-boy_415.jpeg" height="150" width="150">
+                    </td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="3">Models</th>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-right">Models</th>
+                    <td>
+                        <a class="badge" title="Ultra Max II 490 PC Pro Stand" href="~/store/graco-ultra-max-ii-490-pc-pro-electric-airless-paint-sprayer-stand">17E852 <i class="fa fa-external-link" aria-hidden="true"></i></a>
+                        <a class="badge" title="Ultra Max II 490 PC Pro Hi-Boy" href="~/store/graco-ultra-max-ii-490-pc-pro-electric-airless-paint-sprayer-hi-boy">17E854 <i class="fa fa-external-link" aria-hidden="true"></i></a>
+                        <a class="badge" title="Ultra Max II 490 PC Pro Lo-Boy" href="~/store/graco-ultra-max-ii-490-pc-pro-electric-airless-paint-sprayer-lo-boy">17E853 <i class="fa fa-external-link" aria-hidden="true"></i></a>
+                    </td>
+                    <td>
+                        <a class="badge" title="Ultra Max II 495 PC Pro Stand" href="~/store/graco-ultra-max-ii-495-pc-pro-electric-airless-paint-sprayer-stand">17E855 <i class="fa fa-external-link" aria-hidden="true"></i></a>
+                        <a class="badge" title="Ultra Max II 495 PC Pro Hi Boy" href="~/store/graco-ultra-max-ii-495-pc-pro-electric-airless-paint-sprayer-hi-boy">17E857 <i class="fa fa-external-link" aria-hidden="true"></i></a>
+                        <a class="badge" title="Ultra Max II 495 PC Pro Lo Boy" href="~/store/graco-ultra-max-ii-495-pc-pro-electric-airless-paint-sprayer-lo-boy">17E856</a>
+                    </td>
+                    <td>
+                        <a class="badge" title="Ultra Max II 595 PC Pro Hi-Boy" href="~/store/graco-ultra-max-ii-595-pc-pro-electric-airless-paint-sprayer-hi-boy"> 17E859 <i class="fa fa-external-link" aria-hidden="true"></i></a>
+                        <a class="badge" title="Ultra Max II 595 PC Pro Lo-Boy" href="~/store/graco-ultra-max-ii-595-pc-pro-electric-airless-paint-sprayer-lo-boy"> 17E858 <i class="fa fa-external-link" aria-hidden="true"></i></a>
+                    </td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="3">Inlet Strainer</th>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-right">Inlet Strainer</th>
+                    <td colspan="3">
+                        <a href="~/store/inlet-screen-rock-guard-ultra-395495">246385</a>
+                    </td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="3">Packing Kit</th>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-right">Packing Kit</th>
+                    <td colspan="3"><a href="~/store/graco-packing-kit-for-stx-390-ultra-395-495-595">18B260</a></td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="3">Rod</th>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-right">Rod</th>
+                    <td colspan="3"><a href="/store/graco-24w617-piston-rod-replacement">24W617</a></td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="3">Cylinder</th>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-right">Cylinder</th>
+                    <td colspan="3"><a href="~/store/graco-24w619-pump-cylinder-replacement">24W619</a></td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="3">Cylinder Sleeve</th>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-right">Cylinder Sleeve</th>
+                    <td colspan="3">N/A</td>
+                </tr>
+
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="3">Pump <small>(Complete)</small></th>
+                </tr>
+                <tr>
+                    <th class="text-right">Pump <small>(Complete)</small></th>
+                    <td colspan="3"><a href="~/store/graco-proconnect-endurance-pump-lower-kit-390-pc-595-pc-pro">17C487</a></td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="3">Pump Manual</th>
+                </tr>
+                <tr>
+                    <th class="text-right">Pump Manual</th>
+                    <td colspan="3">334599</td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="3">Manual</th>
+                </tr>
+                <tr>
+                    <th class="text-right">Manual</th>
+                    <td colspan="3">3A6491</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-sm-12 my-4">
+        <table class="compare-flex">
+            <thead>
+                <tr>
+                    <td></td>
+                    <th scope="col">Ultra Max II 695 <small>Standard Series</small></th>
+                    <th scope="col">Ultra Max II 795 <small>Standard Series</small></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td>
+                        <img class="img-fluid" alt="Graco Ultra Max II 695 Standard Series airless sprayer" src="~/images/thumbs/000/0003554_graco-ultra-max-ii-695-standard-airless-paint-sprayer-hi-boy_415.jpeg" height="150" width="150">
+                    </td>
+                    <td>
+                        <img class="img-fluid" alt="Graco Ultra Max II 795 Stndard Series airless sprayer" src="~/images/thumbs/000/0003556_graco-ultra-max-ii-795-standard-airless-paint-sprayer_415.jpeg" height="150" width="150">
+                    </td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="2">Models</th>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-right">Models</th>
+                    <td>
+                        <a title="Ultra Max II 695 Hi-Boy Standard Series" class="badge" href="~/store/graco-ultra-max-ii-695-standard-airless-paint-sprayer-hi-boy"> 17E574 <i class="fa fa-external-link" aria-hidden="true"></i></a>
+                        <a title="Ultra Max II 695 Lo-Boy Standard Series" class="badge" href="~/store/graco-ultra-max-ii-695-standard-airless-paint-sprayer-lo-boy"> 17E572 <i class="fa fa-external-link" aria-hidden="true"></i></a>
+                    </td>
+                    <td>
+                        <a title="Ultra Max II 795 Standard Series" class="badge" href="~/store/graco-ultra-max-ii-795-standard-airless-paint-sprayer"> 17E579 <i class="fa fa-external-link" aria-hidden="true"></i></a>
+                    </td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="2">Inlet Strainer</th>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-right">Inlet Strainer</th>
+                    <td colspan="2">
+                        <a href="~/store/inlet-screen-large-gas-hiboys">189920</a>
+                    </td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="2">Packing Kit</th>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-right">Packing Kit</th>
+                    <td colspan="2"><a href="~/store/packing-kit-ultra-max-7951095">248212</a></td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="2">Rod</th>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-right">Rod</th>
+                    <td colspan="2"><a href="~/store/piston-rod-ultramax-ii-695795-ultramax-795-1095">248206</a></td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="2">Cylinder</th>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-right">Cylinder</th>
+                    <td colspan="2"><a href="~/store/fluid-section-cylinder-ultramax-ii-695-795-linelazer-iv-3900"> 17A030</a></td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="2">Cylinder Sleeve</th>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-right">Cylinder Sleeve</th>
+                    <td colspan="2"><a href="~/store/sleeve-repair-kit">248209</a></td>
+                </tr>
+
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="2">Pump <small>(Complete)</small></th>
+                </tr>
+                <tr>
+                    <th class="text-right">Pump <small>(Complete)</small></th>
+                    <td colspan="2"><a href="~/store/complete-graco-fluid-section-pump-ultra-max-ii-695-795"> 16Y598</a></td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="2">Pump Manual</th>
+                </tr>
+                <tr>
+                    <th class="text-right">Pump Manual</th>
+                    <td colspan="2">333028</td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="2">Manual</th>
+                </tr>
+                <tr>
+                    <th class="text-right">Manual</th>
+                    <td colspan="2">3A6342</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-sm-12 my-4">
+        <table class="compare-flex">
+            <thead>
+                <tr>
+                    <td></td>
+                    <th scope="col">Ultra Max II 695 <small>ProContractor Series</small></th>
+                    <th scope="col">Ultra Max II 795 <small>ProContractor Series</small></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td>
+                        <img class="img-fluid" alt="Graco Ultra Max II 695 ProContractor Series airless sprayer" src="~/images/thumbs/000/0003555_graco-ultra-max-ii-695-procontractor-airless-paint-sprayer-hi-boy_415.jpeg" height="150" width="150">
+                    </td>
+                    <td>
+                        <img class="img-fluid" alt="Graco Ultra Max II 795 ProContractor Series airless sprayer" src="~/images/thumbs/000/0003557_graco-ultra-max-ii-795-procontractor-airless-paint-sprayer_415.jpeg" height="150" width="150">
+                    </td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="2">Models</th>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-right">Models</th>
+                    <td>
+                        <a title="Ultra Max II 695 Hi-Boy ProContractor Series" class="badge" href="~/store/graco-ultra-max-ii-695-procontractor-airless-paint-sprayer-hi-boy"> 17E577 <i class="fa fa-external-link" aria-hidden="true"></i></a>
+                    </td>
+                    <td>
+                        <a title="Ultra Max II 795 ProContractor Series" class="badge" href="~/store/graco-ultra-max-ii-795-procontractor-airless-paint-sprayer"> 17E582 <i class="fa fa-external-link" aria-hidden="true"></i></a>
+                    </td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="2">Inlet Strainer</th>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-right">Inlet Strainer</th>
+                    <td colspan="2">
+                        <a href="~/store/inlet-strainer-ironman-7900-hd">15V573</a>
+                    </td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="2">Packing Kit</th>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-right">Packing Kit</th>
+                    <td colspan="2"><a href="~/store/graco-quikpak-pump-repair-kit-17h841-for-ultra-max-ii-695-795-gmax-ii-3900-procontractor-series">17H841</a></td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="2">Rod</th>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-right">Rod</th>
+                    <td colspan="2"><a href="~/store/graco-17h876-pump-piston-rod-for-ultramax-ii-695-795-gmax-ii-3900-procontractor">17H876</a></td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="2">Cylinder</th>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-right">Cylinder</th>
+                    <td colspan="2">-</td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="2">Cylinder Sleeve</th>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-right">Cylinder Sleeve</th>
+                    <td colspan="2">
+                        <a href="~/store/graco-17h864-cylinder-sleeve-for-ultramax-ii-695-795-gmax-ii-3900-procontractor">17H864</a>
+                    </td>
+                </tr>
+
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="2">Pump <small>(Complete)</small></th>
+                </tr>
+                <tr>
+                    <th class="text-right">Pump <small>(Complete)</small></th>
+                    <td colspan="2"><a href="~/store/graco-17h823-endurance-maxlife-piston-pump-for-ultramax-ii-695-795-gmax-ii-3900-procontractor"> 17H823</a></td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="2">Pump Manual</th>
+                </tr>
+                <tr>
+                    <th class="text-right">Pump Manual</th>
+                    <td colspan="2">3A6583A</td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="2">Manual</th>
+                </tr>
+                <tr>
+                    <th class="text-right">Manual</th>
+                    <td colspan="2">3A6342</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-sm-12 my-4">
+        <table class="compare-flex">
+            <thead>
+                <tr>
+                    <td></td>
+                    <th scope="col">Ultra Max II 1095 <small>Standard Series</small></th>
+                    <th scope="col">Ultra Max II 1095 <small>ProContractor Series</small></th>
+                    <th scope="col">Ultra Max II 1095  <small>IronMan Series</small></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td>
+                        <img class="img-fluid" alt="Graco 1095 Standard Series Airless Paint Sprayer" src="~/images/thumbs/000/0003558_graco-ultra-max-ii-1095-standard-airless-paint-sprayer_415.jpeg" height="150" width="150">
+                    </td>
+                    <td>
+                        <img class="img-fluid" alt="Graco 1095 ProContractor Series Airless Paint Sprayer" src="~/images/thumbs/000/0003559_graco-ultra-max-ii-1095-procontractor-airless-paint-sprayer_415.jpeg" height="150" width="150">
+                    </td>
+                    <td>
+                        <img class="img-fluid" alt="Graco 1095 IronMan Series Airless Paint Sprayer" src="~/images/thumbs/000/0003560_graco-ultra-max-ii-1095-ironman-airless-paint-sprayer_415.jpeg" height="150" width="150">
+                    </td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="3">Models</th>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-right">Models</th>
+                    <td>
+                        <a title="Graco Ultra Max II 1095 Standard Airless Paint Sprayer" class="badge" href="~/store/graco-ultra-max-ii-1095-standard-airless-paint-sprayer">17E583 <i class="fa fa-external-link" aria-hidden="true"></i></a>
+                    </td>
+                    <td>
+                        <a title="Graco Ultra Max II 1095 ProContractor Airless Paint Sprayer" class="badge" href="~/store/graco-ultra-max-ii-1095-procontractor-airless-paint-sprayer">17E585 <i class="fa fa-external-link" aria-hidden="true"></i></a>
+                    </td>
+                    <td>
+                        <a title="Graco Ultra Max II 1095 IronMan Airless Paint Sprayer" class="badge" href="~/store/graco-ultra-max-ii-1095-ironman-airless-paint-sprayer">17E586 <i class="fa fa-external-link" aria-hidden="true"></i></a>
+                    </td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="3">Inlet Strainer</th>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-right">Inlet Strainer</th>
+                    <td>
+                        <a href="~/store/inlet-screen-large-gas-hiboys">189920</a>
+                    </td>
+                    <td colspan="2">
+                        <a href="~/store/inlet-strainer-ironman-7900-hd">15V573</a>
+                    </td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="3">Packing Kit</th>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-right">Packing Kit</th>
+                    <td><a href="~/store/packing-kit-10951595-gmax-sprayers">248213</a></td>
+                    <td colspan="2"><a href="~/store/graco-17k162-pump-packing-repair-kit">17K162</a></td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="3">Rod</th>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-right">Rod</th>
+                    <td><a href="~/store/piston-rod-ultramax-ii-1095-1595-gmax-ii-5900-linelazer-iii-iv-5900">248207</a></td>
+                    <td><a href="~/store/graco-17h877-pump-piston-rod-for-ultramax-ii-1095-1595-gmax-ii-5900-procontractor">17H877</a></td>
+                    <td><a href="~/store/graco-17h879-pump-piston-rod-for-ultramax-ii-1095-1595-gmax-ii-5900-ironman">17H879</a></td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="3">Cylinder</th>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-right">Cylinder</th>
+                    <td colspan="3">-</td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="3">Cylinder Sleeve</th>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-right">Cylinder Sleeve</th>
+                    <td><a href="~/store/graco-piston-sleeve">248210</a></td>
+                    <td colspan="2"><a href="~/store/pump-cylinder-sleeve-1095-1595-5900-ironman-series">257031</a></td>
+                </tr>
+
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="3">Pump <small>(Complete)</small></th>
+                </tr>
+                <tr>
+                    <th class="text-right">Pump <small>(Complete)</small></th>
+                    <td><a href="~/store/graco-fluid-section-pump-1095-1595-gmax-ii-5900">16Y706</a></td>
+                    <td><a href="~/store/graco-17h824-endurance-maxlife-piston-pump-for-ultramax-ii-1095-1595-gmax-ii-5900-procontractor">17H824</a></td>
+                    <td><a href="~/store/graco-17h826-endurance-vortex-maxlife-extreme-piston-pump-for-ultramax-ii-1095-1595-gmax-ii-5900-ironman">17H826</a></td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="3">Pump Manual</th>
+                </tr>
+                <tr>
+                    <th class="text-right">Pump Manual</th>
+                    <td>310894</td>
+                    <td colspan="2">3A6583</td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="3">Manual</th>
+                </tr>
+                <tr>
+                    <th class="text-right">Manual</th>
+                    <td colspan="3">3A6342</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-sm-12 my-4">
+        <table class="compare-flex">
+            <thead>
+                <tr>
+                    <td></td>
+                    <th scope="col">Ultra Max II 1595 <small>Standard Series</small></th>
+                    <th scope="col">Ultra Max II 1595 <small>ProContractor Series</small></th>
+                    <th scope="col">Ultra Max II 1595  <small>IronMan Series</small></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td>
+                        <img class="img-fluid" alt="Graco 1595 Standard Series Airless Paint Sprayer" src="~/images/thumbs/000/0003561_graco-ultra-max-ii-1595-standard-airless-paint-sprayer_415.jpeg" height="150" width="150">
+                    </td>
+                    <td>
+                        <img class="img-fluid" alt="Graco 1595 ProContractor Series Airless Paint Sprayer" src="~/images/thumbs/000/0003562_graco-ultra-max-ii-1595-procontractor-airless-paint-sprayer_415.jpeg" height="150" width="150">
+                    </td>
+                    <td>
+                        <img class="img-fluid" alt="Graco 1595 IronMan Series Airless Paint Sprayer" src="~/images/thumbs/000/0003563_graco-ultra-max-ii-1595-ironman-airless-paint-sprayer_415.jpeg" height="150" width="150">
+                    </td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="3">Models</th>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-right">Models</th>
+                    <td>
+                        <a title="Ultra Max II 1595 Standard Series" class="badge" href="~/store/graco-ultra-max-ii-1595-standard-airless-paint-sprayer">17E589 <i class="fa fa-external-link" aria-hidden="true"></i></a>
+                    </td>
+                    <td>
+                        <a title="Ultra Max II 1595 ProContractor Series" class="badge" href="~/store/graco-ultra-max-ii-1595-procontractor-airless-paint-sprayer"> 17E596 <i class="fa fa-external-link" aria-hidden="true"></i></a>
+                    </td>
+                    <td>
+                        <a title="Ultra Max II 1595 IronMan Series" class="badge" href="~/store/graco-ultra-max-ii-1595-ironman-airless-paint-sprayer">17E594 <i class="fa fa-external-link" aria-hidden="true"></i></a>
+                    </td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="3">Inlet Strainer</th>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-right">Inlet Strainer</th>
+                    <td><a href="~/store/inlet-strainer-ironman-7900-hd">15V073</a></td>
+                    <td colspan="2"><a href="~/store/inlet-strainer-ironman-7900-hd">15V073</a></td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="3">Packing Kit</th>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-right">Packing Kit</th>
+                    <td><a href="~/store/packing-kit-10951595-gmax-sprayers">248213</a></td>
+                    <td colspan="2"><a href="~/store/graco-17k162-pump-packing-repair-kit">17K162</a></td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="3">Rod</th>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-right">Rod</th>
+                    <td><a href="~/store/piston-rod-ultramax-ii-1095-1595-gmax-ii-5900-linelazer-iii-iv-5900"> 248207</a></td>
+                    <td><a href="~/store/graco-17h877-pump-piston-rod-for-ultramax-ii-1095-1595-gmax-ii-5900-procontractor">17H877</a></td>
+                    <td><a href="~/store/graco-17h879-pump-piston-rod-for-ultramax-ii-1095-1595-gmax-ii-5900-ironman">17H879</a></td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="3">Cylinder</th>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-right">Cylinder</th>
+                    <td><a href="~/store/cylinder-ultramax-ii-10951595-linelazer-5900">243347</a></td>
+                    <td colspan="2">-</td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="3">Cylinder Sleeve</th>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-right">Cylinder Sleeve</th>
+                    <td><a href="~/store/graco-piston-sleeve">248210</a></td>
+                    <td colspan="2">-</td>
+                </tr>
+
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="3">Pump <small>(Complete)</small></th>
+                </tr>
+                <tr>
+                    <th class="text-right">Pump <small>(Complete)</small></th>
+                    <td><a href="~/store/graco-fluid-section-pump-1095-1595-gmax-ii-5900">16Y706</a></td>
+                    <td><a href="~/store/graco-17h824-endurance-maxlife-piston-pump-for-ultramax-ii-1095-1595-gmax-ii-5900-procontractor">17H824</a></td>
+                    <td><a href="~/store/graco-17h826-endurance-vortex-maxlife-extreme-piston-pump-for-ultramax-ii-1095-1595-gmax-ii-5900-ironman">17H826</a></td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="3">Pump Manual</th>
+                </tr>
+                <tr>
+                    <th class="text-right">Pump Manual</th>
+                    <td>310894</td>
+                    <td colspan="2">3A6583</td>
+                </tr>
+                <tr class="visible-xs-compare" aria-hidden="true">
+                    <td></td>
+                    <th scope="row" colspan="3">Manual</th>
+                </tr>
+                <tr>
+                    <th class="text-right">Manual</th>
+                    <td colspan="3">3A6342</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

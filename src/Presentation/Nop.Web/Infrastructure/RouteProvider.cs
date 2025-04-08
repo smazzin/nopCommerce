@@ -24,10 +24,15 @@ public partial class RouteProvider : BaseRouteProvider, IRouteProvider
         //areas
         endpointRouteBuilder.MapControllerRoute(name: "areaRoute",
             pattern: $"{{area:exists}}/{{controller=Home}}/{{action=Index}}/{{id?}}");
+        
+        //sitemap for static pages
+        endpointRouteBuilder.MapControllerRoute(name: "Sitemap",
+            pattern: $"pages-sitemap.xml",
+            defaults: new { controller = "StaticPagesSitemap", action = "Index" });
 
         //home page
         endpointRouteBuilder.MapControllerRoute(name: "Homepage",
-            pattern: $"{lang}",
+            pattern: $"{lang}/store",
             defaults: new { controller = "Home", action = "Index" });
 
         //login

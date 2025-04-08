@@ -1,0 +1,62 @@
+﻿@{
+    NopHtml.AddTitleParts("Tracking Information for Airless, Pressure Washer and Air Compressor products");
+    NopHtml.AddMetaDescriptionParts("Tracking of airless paint sprayers, air compressors, pressure washers, accessories, parts. The painting equipment tracking page.");
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <h1>Tracking</h1>
+        <p>Nearly everything we ship is sent via UPS. The exceptions are; heavy equipment, crated items, items over 150 lbs., and some light-weight items such as single; spray tips, gun filters and other small parts.</p>
+        <span class="h4">Also see</span>
+        <ul class="list-unstyled">
+            <li><a href="@Url.Action("shipping", "HomePC")">Shipping Info</a></li>
+        </ul>
+        <p>You can track your packages by tracking number or by order number.</p>
+        <p>Transit times vary. These variables include; carrier, destination, package weight, package size and item types (some items must go via ground do to FAA regulations).</p>
+        <h4>UPS Tracking</h4>
+        <p><a href="https://www.ups.com/us/en/Home.page">ups.com</a></p>
+        <h4>By Order Number</h4>
+        <p>Log into your account <a href="~/login">here.</a></p>
+        <img alt="UPS Ground service time map" src="~/images/ups-map.png">
+
+        @* <p>Enter either your tracking number in the "By Tracking Number" box or your Portland Compressor online order number in the "By Order Number" box and use the "Track It" button.</p> *@
+        @* <h4>By Tracking Number</h4> *@
+        @* <form action="http://wwwapps.ups.com/WebTracking/OnlineTool" method="post">
+            Enter your UPS Tracking Number
+            <input name="InquiryNumber1" size="20" type="text">
+            Enter additional tracking number(s)
+            <input name="InquiryNumber2" size="20" type="text">
+            <input name="InquiryNumber3" size="20" type="text">
+            <input name="submit" type="submit" value="Track It!">
+            <input type="reset" value="Start over">
+            <input name="UPS_HTML_License" type="hidden" value="8BF98DF28A2AB848">
+            <input name="UPS_HTML_Version" type="hidden" value="3.0">
+            <input name="IATA" type="hidden" value="us">
+            <input name="Lang" type="hidden" value="eng">
+            <input name="TypeOfInquiryNumber" type="hidden" value="T">
+            <input name="nonUPS_body" type="hidden" value="BGCOLOR=" #000099"">
+            <input name="nonUPS_title" type="hidden" value="Portland Compressor Package Tracker">
+            <input name="nonUPS_header" type="hidden" value="&lt; CENTER&gt; Portland Compressor Tracking Info... &lt; /CENTER&gt; &lt; HR&gt;">
+            <input name="nonUPS_footer" type="hidden" value="&lt; HR&gt; &lt;CENTER&gt;Copyright &copy; 2006 Portland Compressor &lt;/CENTER&gt;">
+        </form> *@
+
+        @* <form action="https://wwwapps.ups.com/WebTracking/OnlineTool" method="post">
+            Enter your Portland Compressor Online
+            Order Number
+            <input name="InquiryNumber2" size="12" type="text">
+            OR Enter your shipping Zip Code
+            <input maxlength="11" name="DestinationPostalCode" size="11" type="text">
+            <input name="submit" type="submit" value="Track It!">
+            <input type="reset" value="Start over">
+            <input name="UPS_HTML_License" type="hidden" value="8BF98DF28A2AB848">
+            <input name="UPS_HTML_Version" type="hidden" value="3.0">
+            <input name="IATA" type="hidden" value="us">
+            <input name="Lang" type="hidden" value="eng">
+            <input name="TypeOfInquiryNumber" type="hidden" value="R">
+            <input name="nonUPS_body" type="hidden" value="BGCOLOR="#000099 "">
+            <input name="nonUPS_title" type="hidden" value="Portland Compressor Package Tracker">
+            <input name="nonUPS_header" type="hidden" value="&lt;CENTER&gt; Portland Compressor Tracking Info... &lt;/CENTER&gt; &lt;HR&gt;">
+            <input name="nonUPS_footer" type="hidden" value="&lt;HR&gt; &lt;CENTER&gt; Copyright © 2006 Portland Compressor &lt;/CENTER&gt;">
+        </form> *@
+    </div>
+</div>

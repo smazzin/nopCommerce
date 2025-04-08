@@ -1,0 +1,143 @@
+﻿@{
+
+    NopHtml.AddTitleParts("Graco Magnum Airless Paint Sprayer Parts");
+    NopHtml.AddMetaDescriptionParts("Common Graco Magnum airless paint sprayer parts for dx, XR5, XR7, XR9, 190ES ProX7, ProX9, 210ES.");
+    NopHtml.AddMetaKeywordParts("airless, paint, sprayer, parts, filters, pump, strainer, packing kit, Graco, Magnum, dx, XR5, XR7, XR9, 190ES, 210es, X5, X7, SR7, ProX7, ProX9");
+    // load datatables
+    //Html.AppendCssFileParts("//cdn.datatables.net/v/bs4/dt-1.10.21/b-1.6.3/b-colvis-1.6.3/fc-3.3.1/fh-3.1.7/r-2.2.5/rg-1.1.2/sc-2.0.2/sp-1.1.1/datatables.min.css");
+    //Html.AppendScriptParts(ResourceLocation.Footer, "//cdn.datatables.net/v/bs4/dt-1.10.21/b-1.6.3/b-colvis-1.6.3/fc-3.3.1/fh-3.1.7/r-2.2.5/rg-1.1.2/sc-2.0.2/sp-1.1.1/datatables.min.js");
+
+	// bootstrap-table
+	//Html.AppendCssFileParts("//unpkg.com/bootstrap-table@1.17.1/dist/bootstrap-table.min.css");
+    //Html.AppendScriptParts(ResourceLocation.Footer, "//unpkg.com/bootstrap-table@1.17.1/dist/bootstrap-table.min.js");
+}
+
+<h1 class="h2 margin-block-end-4">Graco Magnum Airless Sprayer Parts - Current Models</h1>
+<div class="row">
+	<div class="col-md-4">
+		<aside class="card">
+			<span class="bold h4">Also see</span>
+			<ul class="list-unstyled">
+				<li><a href="@Url.Action("MagnumSprayGuns", "airless")">Magnum Spray Guns</a></li>
+				<li><a href="@Url.Action("MagnumAccessories", "airless")">Magnum Accessories</a></li>
+				<li><a href="@Url.Action("GracoParts", "airless")">Graco Airless Parts</a>
+				<li><a href="@Url.Action("Accessories", "airless")">Graco Accessories</a></li>
+			</ul>
+		</aside>
+		
+	</div>
+	<div class="col-md-8 order-first">
+		<p>Here are some common Graco Magnum airless paint sprayer parts also known as &quot;wear parts&quot;. If you don't see the part you are looking for here you can also search our <a href="~/store/airless-paint-sprayer-parts">airless sprayer store</a> or call us and talk to one of our experienced representatives. </p>
+	</div>
+
+	<div class="col-sm-8">
+		<div class="card">
+			<div class="card-header text-center">
+				<h3>Gun Repair Kit</h3>
+			</div>
+			<div class="card-body d-flex align-items-center justify-content-around">
+				<div>
+					<a href="~/store/gun-repair-kit-for-magnum-sg20-sgpro">
+						<img alt="Paint Sprayer Gun Repair Kit" src="~/images/thumbs/000/0002121_gun-repair-kit-for-magnum-sg20-sgpro.jpeg" height="150" width="150">
+					</a>
+				</div>
+				<div>
+					<b>Models:</b>
+					<ul class="list-inline">
+						<li class="list-inline-item">SG3,</li>
+						<li class="list-inline-item">SG2</li>
+					</ul>
+				</div>
+			</div>
+			<div class="table-responisve">
+				<table class="table table-bordered table-hover mb-0">
+					<tr>
+						<th scope="col">
+							SG2 Spray Gun</th>
+						<th scope="col">
+							SG3 Spray Gun
+						</th>
+						<th scope="col">
+							Gun Repair Kit
+						</th>
+					</tr>
+					<tr>
+						<td scope="row">
+							<a href="~/store/graco-magnum-sg2-airless-spray-gun">243011</a>
+						</td>
+						<td scope="row">
+							<a href="~/store/graco-magnum-sg3-airless-spray-gun"> 243012</a> 
+						</td>
+						<td scope="row">
+							<a href="~/store/gun-repair-kit-for-magnum-sg20-sgpro">288817</a>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="col-12 my-4">
+		<hr>
+		<div class="row parts-table">
+		</div>
+	</div>
+</div>
+
+<script asp-location="Footer">
+var api = "../../docs/magnumParts/magnum_parts.json";
+var html = '';
+var result = '';
+$(document).ready(function () { 
+   $.ajax({
+      url:api,
+      method:'GET',
+      cache:false,
+      type:"text/json",
+	  success: function(data){
+		 //console.log(data);
+         for(var i=0;i < data.length; i++) {
+			html += '<div class="col-sm-4 my-2">'
+			html +='<table id="table" class="table table-bordered table-striped table-hover">'
+			+'<thead class="text-center">'
+			+'<tr class="bg-light">'
+			+'<th class="h3" colspan="2">'+data[i].model+'</th>'
+			+'</tr>'
+			+'<tr>'
+			+'<th colspan="2">'+ '<div class="d-flex align-items-center justify-content-around">' + '<img height="150" alt="Graco '+data[i].model+'" src='+(data[i].image ? data[i].image : '/images/thumbs/def/default-image_415.png')+'>'+ '<div>' + (data[i].model_1_sku_url ? '<a href='+data[i].model_1_sku_url+'>' +data[i].model_1_sku+ '</a>' : data[i].model_1_sku) + '</div>' +'</div></th>'
+			+'</tr>'
+			+'</thead>';
+			html +='<tbody>'
+			+'<tr><th scope="row">'+'Spray Tip'+'</th>' +'<td>' + (data[i].sprayTip_url ? '<a href='+data[i].sprayTip_url+'>' +data[i].sprayTip+ '</a>' : 'N/A') + '</td></tr>'
+			+'<tr><th scope="row">'+'Hose'+'</th>' +'<td>' +(data[i].hose_url ? '<a href='+data[i].hose_url+'>' +data[i].hose+ '</a>' : data[i].hose) + '</td></tr>'
+			+'<tr><th scope="row">'+'Inlet Strainer'+'</th>'+'<td>' +(data[i].inlet_strainer_url ? '<a href='+data[i].inlet_strainer_url+'>' +data[i].inlet_strainer+ '</a>' : 'N/A') + '</td></tr>'
+			+'<tr><th scope="row">'+'EasyOut Filter 60 Mesh'+'</th>'  +'<td>' +(data[i].easyout_filter_60_url ? '<a href='+data[i].easyout_filter_60_url+'>' +data[i].easyout_filter_60+ '</a>' : 'N/A') + '</td></tr>'
+			+'<tr><th scope="row">'+'EasyOut Filter 100 Mesh'+'</th>' +'<td>' +(data[i].easyout_filter_100_url ? '<a href='+data[i].easyout_filter_100_url+'>' +data[i].easyout_filter_100+ '</a>': 'N/A') + '</td></tr>'
+			+'<tr><th scope="row">'+'EasyOut Filter 200 Mesh'+'</th>' +'<td>' +(data[i].easyout_filter_200_url ? '<a href='+data[i].easyout_filter_200_url+'>' +data[i].easyout_filter_200+ '</a>' : 'N/A') + '</td></tr>'
+			+'<tr><th scope="row">'+'InstaClean Filter'+'</th>' +'<td>' +(data[i].instaclean_url ? '<a href='+data[i].instaclean_url+'>' +data[i].instaclean+ '</a>' : 'N/A') + '</td></tr>'
+			+'<tr><th scope="row">'+'Gun Filter'+'</th>' +'<td>' + (data[i].gun_filter_url ? '<a href='+data[i].gun_filter_url+'>' +data[i].gun_filter+ '</a>' : 'N/A') +'</td></tr>'
+			+'<tr><th scope="row">'+'Gun Filter 50 Mesh'+'</th>' +'<td>' + (data[i].gun_filter_50_url ? '<a href='+data[i].gun_filter_50_url+'>' +data[i].gun_filter_50+ '</a>' : 'N/A') +'</td></tr>'
+			+'<tr><th scope="row">'+'Gun Filter 100 Mesh'+'</th>' +'<td>' + (data[i].gun_filter_100_url ? '<a href='+data[i].gun_filter_100_url+'>' +data[i].gun_filter_100+ '</a>' : 'N/A') +'</td></tr>'
+			+'<tr><th scope="row">'+'Prime Valve'+'</th>' +'<td>' + (data[i].prime_valve_url ? '<a href='+data[i].prime_valve_url+'>' + data[i].prime_valve + '</a>' : 'N/A') + '</td></tr>'
+			+'<tr><th scope="row">'+'Pump'+'</th>' +'<td>'+ (data[i].pump_url ? '<a href='+data[i].pump_url+'>' +data[i].pump+ '</a>' : 'N/A') +'</td></tr>'
+			+'<tr><th scope="row">'+'Pump Repair Kit'+'</th>' +'<td>' + (data[i].pump_repair_kit_url ? '<a href='+data[i].pump_repair_kit_url+'>' +data[i].pump_repair_kit+ '</a>' : 'N/A') + '</td></tr>'
+			+'<tr><th scope="row">'+'Outlet Valve'+'</th>' +'<td>'+ (data[i].outlet_valve_url ? '<a href='+data[i].outlet_valve_url+'>' +data[i].outlet_valve+ '</a>' : 'N/A') + '</td></tr>'
+			+'<tr><th scope="row">'+'Inlet Valve'+'</th>' +'<td>'+ (data[i].inlet_valve_url ? '<a href='+data[i].inlet_valve_url+'>' +data[i].inlet_valve+ '</a>' : 'N/A') +'</td></tr>'
+			+'<tr>' +'<td colspan="2">'+ (data[i].Operation_manual ? '<a href='+data[i].Operation_manual+'>' + 'Operation Manual' + '</a>' : 'Operation Manual') +'</td></tr>'
+			+'<tr>' +'<td colspan="2">'+ (data[i].repair_parts_manual ? '<a href='+data[i].repair_parts_manual+'>' + 'Repair/Parts Manual' + '</a>' : 'Repair/Parts Manual') +'</td></tr>'
+			+'<tr>' +'<td colspan="2">'+ (data[i].parts_manual ? '<a href='+data[i].parts_manual+'>' + 'Parts Manual' + '</a>' : 'Parts Manual') +'</td></tr>'
+		
+			+'</tbody>';
+			html +='</table>';
+			html +='</div>';
+         }
+		
+		$('.parts-table').html(html);
+		//$('#table').DataTable({
+		// "paging": true,
+		// "ordering": false
+		// 
+		//});
+	  }
+   })
+});
+</script>
