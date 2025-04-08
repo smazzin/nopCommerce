@@ -463,7 +463,7 @@ namespace Nop.Web.Controllers
         // get: compare-contractor-sprayers
         [Route("compare-contractor-sprayers")]
         [RouteName("Compare Electric Contractor Airless Sprayers")]
-        public IActionResult Compare_Contractor_Sprayers()
+        public IActionResult CompareContractorSprayers()
         {
             return View();
         }
